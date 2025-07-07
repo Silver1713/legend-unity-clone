@@ -22,7 +22,7 @@ public class EnemyKnockedState : EnemyBaseState
     private IEnumerator GoWalking()
     {
         yield return new WaitForSeconds(.3f);
-        enemy.Rigidbody2d.velocity = Vector2.zero;
+        enemy.Rigidbody2d.linearVelocity = Vector2.zero;
         enemy.Rigidbody2d.bodyType = RigidbodyType2D.Kinematic;
         enemy.TransitionToState(enemy.WalkState);
 
