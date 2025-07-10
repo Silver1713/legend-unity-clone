@@ -8,8 +8,11 @@ public class RoomManager : MonoBehaviour
     [Serializable]
     public class Count
     {
+        public int numEnemy;
+
         public int minimum;
         public int maximum;
+
 
         public Count(int min, int max)
         {

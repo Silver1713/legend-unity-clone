@@ -3,7 +3,12 @@ using UnityEngine;
 
 public class EnemyKnockedState : EnemyBaseState
 {
+    UIManager uiManager = UIManager.Instance;
     public EnemyKnockedState(EnemyStateManager entity) : base(entity) { }
+
+    private bool IndicatorSpawn = false;
+
+
 
     public override void EnterState()
     {
@@ -16,7 +21,16 @@ public class EnemyKnockedState : EnemyBaseState
         enemy.Rigidbody2d.bodyType = RigidbodyType2D.Dynamic;
         enemy.Rigidbody2d.AddForce(enemy.HitDirection * enemy.ThrustForce, ForceMode2D.Impulse);
 
+        if (!IndicatorSpawn)
+        {
+            IndicatorSpawn = true;
+            uiManager.CreateDamageIndicator(enemy.transform, "Knocked", Color.red);
+        }
+
         enemy.StartCoroutine(GoWalking());
+
+        //spawn damage indicator
+      
     }
 
     private IEnumerator GoWalking()
@@ -25,6 +39,9 @@ public class EnemyKnockedState : EnemyBaseState
         enemy.Rigidbody2d.linearVelocity = Vector2.zero;
         enemy.Rigidbody2d.bodyType = RigidbodyType2D.Kinematic;
         enemy.TransitionToState(enemy.WalkState);
+        IndicatorSpawn = false; // Reset the indicator spawn flag
 
     }
+
+    
 }
