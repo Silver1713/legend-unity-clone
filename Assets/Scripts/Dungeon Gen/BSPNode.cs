@@ -8,11 +8,13 @@ public class BSPNode
     public BSPNode rightChild;
     public RectInt room;
     public bool hasRoom;
+    public List<RectInt> hallways;
     
     public BSPNode(RectInt bounds)
     {
         this.bounds = bounds;
         this.hasRoom = false;
+        this.hallways = new List<RectInt>();
     }
     
     public bool IsLeaf()
@@ -108,8 +110,36 @@ public class BSPNode
     
     public void CreateHalls(RectInt room1, RectInt room2)
     {
-        // Implementation would add hallway tiles between rooms
-        // For now, this is a placeholder that could connect rooms
+        List<RectInt> hallways = new List<RectInt>();
+        
+        Vector2Int point1 = new Vector2Int(room1.x + room1.width / 2, room1.y + room1.height / 2);
+        Vector2Int point2 = new Vector2Int(room2.x + room2.width / 2, room2.y + room2.height / 2);
+        
+        if (Random.Range(0f, 1f) > 0.5f)
+        {
+            hallways.Add(new RectInt(point1.x, point1.y, point2.x - point1.x, 1));
+            hallways.Add(new RectInt(point2.x, point1.y, 1, point2.y - point1.y));
+        }
+        else
+        {
+            hallways.Add(new RectInt(point1.x, point1.y, 1, point2.y - point1.y));
+            hallways.Add(new RectInt(point1.x, point2.y, point2.x - point1.x, 1));
+        }
+        
+        foreach (RectInt hall in hallways)
+        {
+            RectInt normalizedHall = new RectInt(
+                Mathf.Min(hall.x, hall.x + hall.width),
+                Mathf.Min(hall.y, hall.y + hall.height),
+                Mathf.Abs(hall.width),
+                Mathf.Abs(hall.height)
+            );
+            
+            if (normalizedHall.width == 0) normalizedHall.width = 1;
+            if (normalizedHall.height == 0) normalizedHall.height = 1;
+            
+            this.hallways.Add(normalizedHall);
+        }
     }
     
     public List<RectInt> GetAllRooms()
