@@ -31,7 +31,7 @@ public class EnemySwarmState : EnemyBaseState
         Vector2 totalForce = swarmForce + playerForce;
         totalForce = Vector2.ClampMagnitude(totalForce, enemy.WalkSpeed);
         
-        enemy.Rigidbody.velocity = totalForce;
+        enemy.Rigidbody2d.linearVelocity = totalForce;
         
         if (totalForce.magnitude > 0.1f)
         {

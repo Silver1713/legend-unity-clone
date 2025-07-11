@@ -53,7 +53,7 @@ public class EnemyRangedState : EnemyBaseState
         Vector2 directionAwayFromPlayer = (enemy.transform.position - enemy.Player.transform.position).normalized;
         Vector2 velocity = directionAwayFromPlayer * enemy.WalkSpeed * 0.7f;
         
-        enemy.Rigidbody.velocity = velocity;
+        enemy.Rigidbody2d.linearVelocity = velocity;
         enemy.Direction = directionAwayFromPlayer;
         
         enemy.Animator.SetFloat("MoveX", enemy.Direction.x);
@@ -70,7 +70,7 @@ public class EnemyRangedState : EnemyBaseState
         enemy.Animator.SetFloat("MoveY", enemy.Direction.y);
         enemy.Animator.SetBool("IsWalking", false);
         
-        enemy.Rigidbody.velocity = Vector2.zero;
+        enemy.Rigidbody2d.linearVelocity = Vector2.zero;
         isAiming = true;
     }
     
@@ -93,7 +93,7 @@ public class EnemyRangedState : EnemyBaseState
             Rigidbody2D projectileRb = projectile.GetComponent<Rigidbody2D>();
             if (projectileRb != null)
             {
-                projectileRb.velocity = direction * projectileSpeed;
+                projectileRb.linearVelocity = direction * projectileSpeed;
             }
             
             EnemyProjectile projScript = projectile.GetComponent<EnemyProjectile>();
