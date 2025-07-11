@@ -27,9 +27,9 @@ public class EnemyKnockedState : EnemyBaseState
         if (!IndicatorSpawn)
         {
             IndicatorSpawn = true;
-            
-            enemy.Health -= 10.0f; // Example damage value
-            if (enemy.Health <= 0.0f)
+
+            enemy.Stats.health -= 10;
+            if (enemy.Stats.health <= 0.0f)
             {
                 uiManager.CreateDamageIndicator(enemy.transform, $"{raw_damage}", Color.red);
                 enemy.TransitionToState(enemy.DieState);

@@ -43,6 +43,7 @@ public class DungeonManager : Singleton<DungeonManager>
         _mainCamera = Camera.main.transform;
         Vector2 position = new Vector2(Const.ScreenWitdth / 2.0f, Const.ScreenHeight / 2.0f);
         _playerController = Instantiate(playerPrefab, position, Quaternion.identity);
+        
         _playerTransform = _playerController.transform;
         _offsetX = _offsetY = 0;
 
@@ -57,6 +58,8 @@ public class DungeonManager : Singleton<DungeonManager>
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+
+        GameManager.Instance.SetPlayer(_playerController.gameObject);
 
         Doorway.ShiftRoomEvent += PlayerCollideDoorwayEventHandler;
         Switch.SwitchPressed += SwitchPressedEventHandler;

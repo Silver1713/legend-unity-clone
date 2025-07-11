@@ -13,6 +13,11 @@ public class EnemyIdleState : EnemyBaseState
     {
         enemy.Animator.SetBool("IsWalking", false);
         _waitDuration = _waitTimer = 0;
+
+        if (enemy.Stats.attackBehaviour == ATTACK_BEHAVIOUR.ATTACK_SWARM)
+        {
+            enemy.TransitionToState(enemy.RushState);
+        }
     }
 
     public override void Update()

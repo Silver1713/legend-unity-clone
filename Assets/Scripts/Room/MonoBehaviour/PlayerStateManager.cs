@@ -2,10 +2,12 @@
 
 public class PlayerStateManager : EntityStateManager
 {
-    [Header("Health")] public float MaxHealth = 100.0f;
-    public float Health = 100.0f;
+    [Header("Stats")]
+    public PlayerStats templateStats;
+    public PlayerStats playerStats;
 
     [Header("Weapon")]
+    public Weapon defaultWeapon;
     public Weapon EquippedWeapon;
 
     private PlayerIdleState _idleState;
@@ -20,6 +22,14 @@ public class PlayerStateManager : EntityStateManager
 
     private void Awake()
     {
+        playerStats = Instantiate(templateStats);
+        playerStats.hideFlags = HideFlags.HideAndDontSave; // Prevents it from being saved in the scene
+
+        EquippedWeapon = Instantiate(defaultWeapon);
+
+        EquippedWeapon.hideFlags = HideFlags.HideAndDontSave; // Prevents it from being saved in the scene
+
+
         _idleState = new PlayerIdleState(this);
         _walkState = new PlayerWalkState(this);
         _shiftState = new PlayerShiftState(this);
@@ -38,8 +48,10 @@ public class PlayerStateManager : EntityStateManager
         TransitionToState(ShiftState);
     }
 
-    public void TakeDamage()
+    public void TakeDamage(EnemyStateManager enemy)
     {
         Debug.Log("player hit by NPC");
+        
+        
     }
 }

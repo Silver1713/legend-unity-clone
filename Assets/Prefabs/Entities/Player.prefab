@@ -272,9 +272,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 4
-  MaxHealth: 100
-  Health: 100
-  EquippedWeapon: {fileID: 11400000, guid: 51d79657db93f5143bfda64256e3d039, type: 2}
+  templateStats: {fileID: 11400000, guid: cda5db64d338e1e48a3113f860d27f0c, type: 2}
+  playerStats: {fileID: 0}
+  defaultWeapon: {fileID: 11400000, guid: 51d79657db93f5143bfda64256e3d039, type: 2}
+  EquippedWeapon: {fileID: 0}
 --- !u!114 &7181679513194413266
 MonoBehaviour:
   m_ObjectHideFlags: 0
