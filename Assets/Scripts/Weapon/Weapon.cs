@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Weapon", menuName = "Scriptable Objects/Weapon/Base")]
 public class Weapon : ScriptableObject
 {
     [Header("Base Weapon Stats (Immutable)")]

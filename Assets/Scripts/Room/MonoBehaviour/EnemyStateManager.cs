@@ -5,10 +5,13 @@
 public class EnemyStateManager : EntityStateManager
 {
     
+    private PlayerStateManager _player;
     private EnemyIdleState _idleState;
     private EnemyWalkState _walkState;
     private EnemyKnockedState _knockedState;
     private EnemyDieState _dieState;
+    private EnemyAttackState _attackState;
+    
     private Vector2 _hitDir;
 
 
@@ -16,6 +19,8 @@ public class EnemyStateManager : EntityStateManager
     public EnemyIdleState IdleState { get => _idleState; }
     public EnemyKnockedState KnockState { get => _knockedState; }
     public EnemyDieState DieState { get => _dieState; }
+    public EnemyAttackState AttackState { get => _attackState; }
+
 
     [Header("Movement")]
 
@@ -32,6 +37,7 @@ public class EnemyStateManager : EntityStateManager
         _walkState = new EnemyWalkState(this);
         _knockedState = new EnemyKnockedState(this);
         _dieState = new EnemyDieState(this);
+        _attackState = new EnemyAttackState(this);
         _direction = Vector2.down;
         
     }
@@ -54,4 +60,18 @@ public class EnemyStateManager : EntityStateManager
     {
         base.Update();
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+       
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            _player = collision.gameObject.GetComponent<PlayerStateManager>();
+            if (_player != null && _currentState != KnockState && _currentState != DieState)
+            {
+                TransitionToState(AttackState);
+            }
+        }
+    }
+
 }

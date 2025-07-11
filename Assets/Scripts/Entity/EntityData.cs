@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EntityData", menuName = "Scriptable Objects/Entity/Stats")]
 public class EntityData : ScriptableObject
 {
     [Header("Entity Stats")]
