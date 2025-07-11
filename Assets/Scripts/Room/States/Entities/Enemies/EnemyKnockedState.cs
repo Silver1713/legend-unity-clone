@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class EnemyKnockedState : EnemyBaseState
 {
-    UIManager uiManager = UIManager.Instance;
-    public EnemyKnockedState(EnemyStateManager entity) : base(entity) { }
+
+    public float raw_damage;
+    private UIManager uiManager = UIManager.Instance;
+
 
     private bool IndicatorSpawn = false;
 
+    public EnemyKnockedState(EnemyStateManager entity) : base(entity) { }
 
 
     public override void EnterState()
@@ -24,7 +27,23 @@ public class EnemyKnockedState : EnemyBaseState
         if (!IndicatorSpawn)
         {
             IndicatorSpawn = true;
-            uiManager.CreateDamageIndicator(enemy.transform, "Knocked", Color.red);
+            
+            enemy.Health -= 10.0f; // Example damage value
+            if (enemy.Health <= 0.0f)
+            {
+                uiManager.CreateDamageIndicator(enemy.transform, $"{raw_damage}", Color.red);
+                enemy.TransitionToState(enemy.DieState);
+
+            }
+            else 
+            {
+                // Spawn damage indicator
+                uiManager.CreateDamageIndicator(enemy.transform, $"{raw_damage}", Color.red);
+                
+
+
+            }
+
         }
 
         enemy.StartCoroutine(GoWalking());

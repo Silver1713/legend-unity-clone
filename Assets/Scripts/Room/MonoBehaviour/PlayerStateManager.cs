@@ -2,6 +2,12 @@
 
 public class PlayerStateManager : EntityStateManager
 {
+    [Header("Health")] public float MaxHealth = 100.0f;
+    public float Health = 100.0f;
+
+    [Header("Weapon")]
+    public Weapon EquippedWeapon;
+
     private PlayerIdleState _idleState;
     private PlayerWalkState _walkState;
     private PlayerShiftState _shiftState;
