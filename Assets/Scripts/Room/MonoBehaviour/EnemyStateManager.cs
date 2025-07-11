@@ -13,6 +13,8 @@ public class EnemyStateManager : EntityStateManager
     private EnemyDieState _dieState;
     private EnemyAttackState _attackState;
     private EnemyRushState _rushState;
+    private EnemySwarmState _swarmState;
+    private EnemyRangedState _rangedState;
 
     private Vector2 _hitDir;
 
@@ -25,6 +27,8 @@ public class EnemyStateManager : EntityStateManager
     public EnemyAttackState AttackState { get => _attackState; }
 
     public EnemyRushState RushState { get => _rushState; }
+    public EnemySwarmState SwarmState { get => _swarmState; }
+    public EnemyRangedState RangedState { get => _rangedState; }
 
     [Header("Movement")]
 
@@ -57,6 +61,8 @@ public class EnemyStateManager : EntityStateManager
         _dieState = new EnemyDieState(this);
         _attackState = new EnemyAttackState(this);
         _rushState = new EnemyRushState(this);
+        _swarmState = new EnemySwarmState(this);
+        _rangedState = new EnemyRangedState(this);
         _direction = Vector2.down;
 
         COOLDOWN = Stats.attackCooldown;
