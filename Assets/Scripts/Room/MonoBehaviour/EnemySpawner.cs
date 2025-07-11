@@ -168,7 +168,7 @@ public class EnemySpawner : MonoBehaviour
             {
                 float levelMultiplier = 1.0f + (roomLevel - 1) * 0.2f;
                 stateManager.Stats.health *= levelMultiplier;
-                stateManager.Stats.damage *= levelMultiplier;
+                stateManager.Stats.baseAttack *= levelMultiplier;
                 stateManager.Stats.speed *= Mathf.Min(levelMultiplier, 1.5f); // Cap speed increase
             }
         }

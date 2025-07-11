@@ -1,9 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class EnemySwarmState : IState
+public class EnemySwarmState : EnemyBaseState
 {
-    private EnemyStateManager enemy;
     private float swarmRadius = 3.0f;
     private float separationForce = 2.0f;
     private float cohesionForce = 1.0f;
@@ -11,18 +10,17 @@ public class EnemySwarmState : IState
     private float playerSeekForce = 2.5f;
     private List<EnemyStateManager> nearbyEnemies;
     
-    public EnemySwarmState(EnemyStateManager enemy)
+    public EnemySwarmState(EnemyStateManager enemy) : base(enemy)
     {
-        this.enemy = enemy;
         nearbyEnemies = new List<EnemyStateManager>();
     }
     
-    public void Enter()
+    public override void EnterState()
     {
-        enemy.Animator.SetBool("isWalking", true);
+        enemy.Animator.SetBool("IsWalking", true);
     }
     
-    public void Execute()
+    public override void Update()
     {
         if (enemy.Player == null) return;
         
@@ -47,11 +45,6 @@ public class EnemySwarmState : IState
         {
             enemy.TransitionToState(enemy.AttackState);
         }
-    }
-    
-    public void Exit()
-    {
-        enemy.Animator.SetBool("isWalking", false);
     }
     
     private void FindNearbyEnemies()

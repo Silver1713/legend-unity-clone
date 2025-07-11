@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class EnemyRangedState : IState
+public class EnemyRangedState : EnemyBaseState
 {
-    private EnemyStateManager enemy;
     private float attackRange = 5.0f;
     private float minRange = 2.0f;
     private float projectileSpeed = 8.0f;
@@ -10,19 +9,18 @@ public class EnemyRangedState : IState
     private float shotCooldown = 1.5f;
     private bool isAiming;
     
-    public EnemyRangedState(EnemyStateManager enemy)
+    public EnemyRangedState(EnemyStateManager enemy) : base(enemy)
     {
-        this.enemy = enemy;
     }
     
-    public void Enter()
+    public override void EnterState()
     {
-        enemy.Animator.SetBool("isWalking", false);
+        enemy.Animator.SetBool("IsWalking", false);
         isAiming = false;
         lastShotTime = 0f;
     }
     
-    public void Execute()
+    public override void Update()
     {
         if (enemy.Player == null) return;
         
@@ -50,12 +48,6 @@ public class EnemyRangedState : IState
         }
     }
     
-    public void Exit()
-    {
-        enemy.Animator.SetBool("isWalking", false);
-        isAiming = false;
-    }
-    
     private void MoveAwayFromPlayer()
     {
         Vector2 directionAwayFromPlayer = (enemy.transform.position - enemy.Player.transform.position).normalized;
@@ -66,7 +58,7 @@ public class EnemyRangedState : IState
         
         enemy.Animator.SetFloat("MoveX", enemy.Direction.x);
         enemy.Animator.SetFloat("MoveY", enemy.Direction.y);
-        enemy.Animator.SetBool("isWalking", true);
+        enemy.Animator.SetBool("IsWalking", true);
     }
     
     private void AimAtPlayer()
@@ -76,7 +68,7 @@ public class EnemyRangedState : IState
         
         enemy.Animator.SetFloat("MoveX", enemy.Direction.x);
         enemy.Animator.SetFloat("MoveY", enemy.Direction.y);
-        enemy.Animator.SetBool("isWalking", false);
+        enemy.Animator.SetBool("IsWalking", false);
         
         enemy.Rigidbody.velocity = Vector2.zero;
         isAiming = true;
@@ -107,7 +99,7 @@ public class EnemyRangedState : IState
             EnemyProjectile projScript = projectile.GetComponent<EnemyProjectile>();
             if (projScript != null)
             {
-                projScript.SetDamage(enemy.Stats.damage);
+                projScript.SetDamage(enemy.Stats.baseAttack);
                 projScript.SetLifetime(3.0f);
             }
         }
