@@ -16,7 +16,12 @@ public abstract class EntityStateManager : MonoBehaviour
 
     // States
     protected IState _currentState;
+    protected IState _previousState;
     public IState CurrentState { get { return _currentState; } }
+    public IState PreviousState
+    {
+        get => _previousState;
+    }
 
     // Others
     [SerializeField]
@@ -45,8 +50,21 @@ public abstract class EntityStateManager : MonoBehaviour
 
     public void TransitionToState(IState state)
     {
+        if (_previousState != null && _previousState == _currentState)
+        {
+            return;
+        }
+        _previousState = _currentState;
         _currentState = state;
         _currentState.EnterState();
+    }
+
+    public void TransitionToPreviousState()
+    {
+        if (_previousState != null)
+        {
+            TransitionToState(_previousState);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

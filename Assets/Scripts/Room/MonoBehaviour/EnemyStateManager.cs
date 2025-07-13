@@ -12,12 +12,15 @@ public class EnemyStateManager : EntityStateManager
     private EnemyKnockedState _knockedState;
     private EnemyDieState _dieState;
     private EnemyAttackState _attackState;
-    private EnemyRushState _rushState;
     private EnemySwarmState _swarmState;
     private EnemyRangedState _rangedState;
+    private EnemyDamageState _damageState;
 
     private Vector2 _hitDir;
+    private GameObject playerObject;
 
+
+   
 
 
     public EnemyWalkState WalkState { get => _walkState; }
@@ -26,9 +29,10 @@ public class EnemyStateManager : EntityStateManager
     public EnemyDieState DieState { get => _dieState; }
     public EnemyAttackState AttackState { get => _attackState; }
 
-    public EnemyRushState RushState { get => _rushState; }
     public EnemySwarmState SwarmState { get => _swarmState; }
     public EnemyRangedState RangedState { get => _rangedState; }
+
+    public EnemyDamageState DamageState { get => _damageState; }
 
     [Header("Movement")]
 
@@ -60,9 +64,9 @@ public class EnemyStateManager : EntityStateManager
         _knockedState = new EnemyKnockedState(this);
         _dieState = new EnemyDieState(this);
         _attackState = new EnemyAttackState(this);
-        _rushState = new EnemyRushState(this);
         _swarmState = new EnemySwarmState(this);
         _rangedState = new EnemyRangedState(this);
+        _damageState = new EnemyDamageState(this);
         _direction = Vector2.down;
 
         COOLDOWN = Stats.attackCooldown;
@@ -70,7 +74,10 @@ public class EnemyStateManager : EntityStateManager
     protected override void Start()
     {
         base.Start();
-        TransitionToState(_walkState);
+
+        playerObject = GameManager.Instance.GetPlayer();
+        _player = playerObject.GetComponent<PlayerStateManager>();
+        TransitionToState((Stats.attackBehaviour == ATTACK_BEHAVIOUR.ATTACK_SWARM) ? SwarmState : WalkState);
     }
 
     // Called from Player when hit an NPC with the sword
@@ -78,8 +85,13 @@ public class EnemyStateManager : EntityStateManager
     public void Hit(Vector2 direction, float damage)
     {
         _hitDir = direction;
-        KnockState.raw_damage = damage;
-        TransitionToState(KnockState);
+        
+
+        if (CurrentState == DamageState)
+        {
+            return;
+        }
+        else TransitionToState(DamageState);
     }
 
     protected override void Update()

@@ -9,9 +9,10 @@ public class EnemyAttackState : EnemyBaseState
     public override void EnterState()
     {
         Debug.Log("Enemy is attacking.");
-        enemy.Player.playerStats.health -= enemy.Stats.baseAttack;
-        UIManager.Instance.CreateDamageIndicator(enemy.Player.transform, $"{enemy.Stats.baseAttack}", Color.white);
-        enemy.TransitionToState(enemy.WalkState);
+
+        
+        enemy.Player.TakeDamage(enemy);
+        enemy.TransitionToPreviousState();
         
     }
 

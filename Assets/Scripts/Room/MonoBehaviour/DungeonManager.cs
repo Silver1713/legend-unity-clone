@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DungeonManager : Singleton<DungeonManager>
 {
+    public DDAEngineWrapper DDAEngine;
     public PlayerStateManager playerPrefab;
     public RoomManager RoomManager;
     //public MiniMap _miniMap;
@@ -18,6 +19,8 @@ public class DungeonManager : Singleton<DungeonManager>
 
     // 35 => row 3 col 5
     public int startRoom = 35;
+
+    public int roomID = 35;
 
     private Transform _mainCamera;
     private Room _currentRoom;
@@ -74,9 +77,14 @@ public class DungeonManager : Singleton<DungeonManager>
         }
 
         List<Position> neighbourRooms = dungeon.GetNeighbours(startRoom);
-        _currentRoom = RoomManager.GenerateRoom(_offsetX, _offsetY, neighbourRooms, startRoom);
+        _currentRoom = RoomManager.GenerateRoom(_offsetX, _offsetY, new List<Position>(), startRoom);
+
+        Vector2 plrPos = RoomManager.GetSpawnPoint();
+        _playerTransform.position = plrPos;
 
         _visitedRooms.Add(startRoom, _currentRoom);
+
+        DDAEngine.StartLevel(roomID.ToString());
     }
 
     #endregion
@@ -201,6 +209,9 @@ public class DungeonManager : Singleton<DungeonManager>
 
         _nextRoom.OpenAllDoors(true);
 
+        DDAEngine.EndLevel();
+        GameManager.Instance.PrintStats();
+
         while (Vector3.Distance(_mainCamera.position, target) > 0.0001f)
         {
             float step = _cameraSpeed * Time.deltaTime;
@@ -239,9 +250,12 @@ public class DungeonManager : Singleton<DungeonManager>
         if (_visitedRooms.ContainsKey(nextRoomId))
         {
             Debug.LogFormat("Next Room \"{0}\" has been visited already => reposition!", nextRoomId);
-            nextRoom = _visitedRooms[nextRoomId];
-            nextRoom.Reposition(_offsetX, _offsetY);
-            nextRoom.Display();
+            //nextRoom = _visitedRooms[nextRoomId];
+            //nextRoom.Reposition(_offsetX, _offsetY);
+            //nextRoom.Display();
+            List<Position> neighbours = dungeon.GetNeighbours(nextRoomId);
+            //DebugNeighbours(neighbours);
+            nextRoom = RoomManager.GenerateRoom(_offsetX, _offsetY, neighbours, ++roomID);
         }
         else
         {
@@ -251,6 +265,7 @@ public class DungeonManager : Singleton<DungeonManager>
             nextRoom = RoomManager.GenerateRoom(_offsetX, _offsetY, neighbours, nextRoomId);
         }
 
+        DDAEngine.StartLevel(nextRoomId.ToString());
         return nextRoom;
 
     }

@@ -15,9 +15,9 @@ MonoBehaviour:
   strength: 0
   defense: 0
   speed: 0
-  health: 100
+  health: 30
   maxHealth: 0
-  attackBehaviour: 1
+  attackBehaviour: 0
   baseAttack: 10
   attackSpeed: 10
   attackRange: 3

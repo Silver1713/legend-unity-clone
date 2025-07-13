@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyKnockedState : EnemyBaseState
 {
 
-    public float raw_damage;
+    public bool isDamage = false;
     private UIManager uiManager = UIManager.Instance;
 
 
@@ -24,40 +24,28 @@ public class EnemyKnockedState : EnemyBaseState
         enemy.Rigidbody2d.bodyType = RigidbodyType2D.Dynamic;
         enemy.Rigidbody2d.AddForce(enemy.HitDirection * enemy.ThrustForce, ForceMode2D.Impulse);
 
-        if (!IndicatorSpawn)
-        {
-            IndicatorSpawn = true;
+       
 
-            enemy.Stats.health -= 10;
-            if (enemy.Stats.health <= 0.0f)
-            {
-                uiManager.CreateDamageIndicator(enemy.transform, $"{raw_damage}", Color.red);
-                enemy.TransitionToState(enemy.DieState);
-
-            }
-            else 
-            {
-                // Spawn damage indicator
-                uiManager.CreateDamageIndicator(enemy.transform, $"{raw_damage}", Color.red);
-                
-
-
-            }
-
-        }
-
-        enemy.StartCoroutine(GoWalking());
+        enemy.StartCoroutine(GoBack());
 
         //spawn damage indicator
       
     }
 
-    private IEnumerator GoWalking()
+    private IEnumerator GoBack()
     {
         yield return new WaitForSeconds(.3f);
         enemy.Rigidbody2d.linearVelocity = Vector2.zero;
         enemy.Rigidbody2d.bodyType = RigidbodyType2D.Kinematic;
-        enemy.TransitionToState(enemy.WalkState);
+        if (isDamage)
+        {
+            enemy.TransitionToState((enemy.Stats.attackBehaviour == ATTACK_BEHAVIOUR.ATTACK_SWARM) ? enemy.SwarmState : enemy.WalkState);
+        }
+        else
+        {
+            enemy.TransitionToPreviousState();
+        }
+            isDamage = false; // Reset the damage flag
         IndicatorSpawn = false; // Reset the indicator spawn flag
 
     }

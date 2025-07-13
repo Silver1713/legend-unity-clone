@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -6,7 +7,7 @@ public class UIManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public GameObject DamageIndicatorPrefab; // Prefab for the damage indicator UI
-    
+    public TextMeshProUGUI DisplayHealth;
     private static UIManager _instance;
 
     public Canvas mainCanvas;
@@ -56,6 +57,26 @@ public class UIManager : MonoBehaviour
             indicatorUI.FloatSpeed =  Random.Range(0.5f, 1.5f); // Randomize float speed
             indicatorUI.FloatHeight = Random.Range(0.5f, 1.5f); // Randomize float height
             
+        }
+    }
+
+
+    public void UpdateHealthDisplay(float currentHealth, float maxHealth)
+    {
+        if (DisplayHealth != null)
+        {
+            if (currentHealth < 0)
+            {
+                DisplayHealth.text = $"Health: Died";
+            }
+            else
+            {
+                DisplayHealth.text = $"Health: {currentHealth}/{maxHealth}";
+            }
+        }
+        else
+        {
+            Debug.LogWarning("DisplayHealth TextMeshProUGUI is not assigned in UIManager.");
         }
     }
 }

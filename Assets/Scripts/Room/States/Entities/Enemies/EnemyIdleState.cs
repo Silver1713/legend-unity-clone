@@ -16,7 +16,7 @@ public class EnemyIdleState : EnemyBaseState
 
         if (enemy.Stats.attackBehaviour == ATTACK_BEHAVIOUR.ATTACK_SWARM)
         {
-            enemy.TransitionToState(enemy.RushState);
+            enemy.TransitionToState(enemy.SwarmState);
         }
     }
 

@@ -2,12 +2,14 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags:
   - Enemy
   - Weapon
   - Switch
   - PlayerHurtBox
+  - Bullet
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -23,7 +25,7 @@ TagManager:
   - Player
   - NPC
   - Player HurtBox
-  - 
+  - Projectile
   - 
   - 
   - 
@@ -60,3 +62,8 @@ TagManager:
   - name: Map
     uniqueID: 3879414909
     locked: 0
+  - name: Projectile
+    uniqueID: 1892152651
+    locked: 0
+  m_RenderingLayers:
+  - Default

@@ -29,6 +29,7 @@ public class PlayerSwingSwordState : PlayerBaseState
         {
             // The HurtBox collider will be involved as it's the only set to trigger
             collision.GetComponent<EnemyStateManager>().Hit(player.Direction, player.EquippedWeapon.GetDamage());
+            GameManager.Instance.Melee(player.EquippedWeapon.GetDamage());
         }
     }
 }

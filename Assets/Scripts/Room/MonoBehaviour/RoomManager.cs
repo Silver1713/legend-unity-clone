@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using Random = UnityEngine.Random;
 
 public class RoomManager : MonoBehaviour
@@ -43,26 +44,45 @@ public class RoomManager : MonoBehaviour
     private int _adjacentOffsetY;
 
     private Room room;
+
     private GameObject switchInstance;
 
     private List<Position> _adjacentRooms;
 
+
+    public RoomLayout currentRoom;
+    private bool onSpawn = true;
     public Room GenerateRoom(int offsetX, int offsetY, List<Position> doorways, int roomId)
     {
         _adjacentOffsetX = offsetX;
         _adjacentOffsetY = offsetY;
 
         _adjacentRooms = doorways;
+        Random.InitState(roomId); // Initialize the random state with the room ID
 
         room = new Room(roomId);
-
-        GenerateWallsAndFloors();
+        RoomLayout layout = RoomGenerator.GenerateRoomLayout(Const.MapWitdth, Const.MapHeight, new GeneratorInfo
+        {
+            Seed = roomId,
+            RoomCount = _adjacentRooms.Count,
+            doors = new List<DOOR_TYPE> { DOOR_TYPE.RIGHT, DOOR_TYPE.BOTTOM },
+            minDoor = 1,
+            maxDoor = 3,
+            onSpawn = onSpawn
+        });
+        currentRoom = layout;
+        Debug.Log(layout.ToAscii());
+        onSpawn = false;
+        GenerateWallsAndFloors(currentRoom);
         GenerateDoorways();
         GenerateObjects();
         GenerateEntities();
 
+
+
         return room;
     }
+
 
     private void GenerateObjects()
     {
@@ -76,14 +96,97 @@ public class RoomManager : MonoBehaviour
     public static Vector2 GetRandomPosition(int offsetX, int offsetY)
     {
         // + 2 is the offset for the walls and one extra so it isn't either next to the walls
-        float targetHorizontalPos = Random.Range(Const.MapRenderOffsetX + 2 , Const.MapWitdth - 1);
+        float targetHorizontalPos = Random.Range(Const.MapRenderOffsetX + 2, Const.MapWitdth - 1);
         float targetVerticalPos = Random.Range(Const.MapRenderOffsetY + 2, Const.MapHeight - 1);
 
         return new Vector2(targetHorizontalPos + offsetX, targetVerticalPos + offsetY);
     }
 
     // Generate the walls and floor of the room, randomazing the various varieties
-    void GenerateWallsAndFloors()
+    void GenerateWallsAndFloors(RoomLayout layout = null)
+    {
+        if (layout == null)
+        {
+            GenerateDefaultWallAndFloor();
+            return;
+        }
+
+        ICell[,] grid = layout.grid;
+
+
+        for (int y = 0; y < Const.MapHeight; y++)
+        {
+            for (int x = 0; x < Const.MapWitdth; x++)
+            {
+                GameObject tile = null;
+
+                ICell cell = grid[x, y];
+                if (cell.cellType == CellType.Floor)
+                {
+                    tile = floorTiles[Random.Range(0, floorTiles.Length)];
+                }
+                else if (cell.cellType == CellType.Wall)
+                {
+                    if (cell.direction == DIRECTION.Left)
+                    {
+                        tile = leftWallsTiles[Random.Range(0, leftWallsTiles.Length)];
+                    }
+                    else if (cell.direction == DIRECTION.Right)
+                    {
+                        tile = rightWallsTiles[Random.Range(0, rightWallsTiles.Length)];
+                    }
+                    else if (cell.direction == DIRECTION.Up)
+                    {
+                        tile = topWallsTiles[Random.Range(0, topWallsTiles.Length)];
+                    }
+                    else if (cell.direction == DIRECTION.Down)
+                    {
+                        tile = bottomWallsTiles[Random.Range(0, bottomWallsTiles.Length)];
+                    }
+                    else if (cell.direction == DIRECTION.BottomLeftCorner)
+                    {
+                        tile = bottomLeftCornerTile;
+                    }
+                    else if (cell.direction == DIRECTION.BottomRightCorner)
+                    {
+                        tile = bottomRightCornerTile;
+                    }
+                    else if (cell.direction == DIRECTION.TopLeftCorner)
+                    {
+                        tile = topLeftCornerTile;
+                    }
+                    else if (cell.direction == DIRECTION.TopRightCorner)
+                    {
+                        tile = topRightCornerTile;
+                    }
+
+                }
+
+                else if (cell.cellType == CellType.SPAWN)
+                {
+                    tile = floorTiles[Random.Range(0, floorTiles.Length)];
+                }
+                else if (cell.cellType == CellType.Void)
+                {
+                    continue; // Skip void cells
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (tile == null) continue;
+                Vector3 position = new Vector3(x + Const.MapRenderOffsetX + _adjacentOffsetX,
+                    y + Const.MapRenderOffsetY + _adjacentOffsetY, 0f);
+                GameObject instance = Instantiate(tile, position, Quaternion.identity);
+                instance.transform.SetParent(room.Holder);
+            }
+        }
+
+
+    }
+
+    void GenerateDefaultWallAndFloor()
     {
         for (int y = 0; y < Const.MapHeight; y++)
         {
@@ -133,7 +236,7 @@ public class RoomManager : MonoBehaviour
                     tile = floorTiles[Random.Range(0, floorTiles.Length)];
                 }
 
-                Vector3 position = new Vector3(x + Const.MapRenderOffsetX + _adjacentOffsetX, 
+                Vector3 position = new Vector3(x + Const.MapRenderOffsetX + _adjacentOffsetX,
                     y + Const.MapRenderOffsetY + _adjacentOffsetY, 0f);
 
                 GameObject instance = Instantiate(tile, position, Quaternion.identity);
@@ -145,24 +248,106 @@ public class RoomManager : MonoBehaviour
 
     void GenerateDoorways()
     {
-        foreach (var roomPosition in _adjacentRooms)
-        {
-            Doorway doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == roomPosition));
-            doorway.Reposition(_adjacentOffsetX, _adjacentOffsetY);
-            doorway.transform.SetParent(room.DoorwayHolder);
+        List<ICell> doors = currentRoom.GetDoors();
+        if (doors.Count == 0)
+        {   
+            Debug.LogWarning("No doors found in the room layout.");
 
-            room.Doorways.Add(doorway);
         }
+        // If there are no doorways, we don't need to generate any
+        foreach (var door in doors)
+        {
+            Doorway doorway = null;
+            switch (door.direction)
+            {
+                case DIRECTION.Up:
+                    // _adjacentRooms.Add(Position.TOP);
+                    doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.TOP), room.DoorwayHolder);
+                    Vector2 position1 = WorldPos(door.Position.x, door.Position.y);
+                    doorway.transform.position = position1;
+                    doorway.transform.position = new Vector3(door.Position.x, door.Position.y + 1, 0f);
+
+                    break;
+
+                case DIRECTION.Down:
+                    // _adjacentRooms.Add(Position.BOTTOM);
+                    doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.BOTTOM), room.DoorwayHolder);
+                    Vector2 position2 = WorldPos(door.Position.x, door.Position.y);
+                    doorway.transform.position = position2;
+
+                    doorway.transform.position = new Vector3(door.Position.x, door.Position.y, 0f);
+
+                    break;
+                case DIRECTION.Left:
+                    //    _adjacentRooms.Add(Position.LEFT);
+                    doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.LEFT), room.DoorwayHolder);
+                    Vector2 position3 = WorldPos(door.Position.x, door.Position.y);
+                    doorway.transform.position = position3;
+
+                    break;
+                case DIRECTION.Right:
+                    // _adjacentRooms.Add(Position.RIGHT);
+                    doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.RIGHT), room.DoorwayHolder);
+                    Vector2 position4 = WorldPos(door.Position.x, door.Position.y);
+                    doorway.transform.position = position4;
+
+                    break;
+            }
+
+            if (doorway == null)
+            {
+
+                Debug.LogError("Doorway prefab not found for direction: " + door.direction);
+                continue;
+            }
+           
+            room.Doorways.Add(doorway);
+
+            
+
+
+        }
+
+        //foreach (var roomPosition in _adjacentRooms)
+        //{
+        //    Doorway doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == roomPosition));
+        //    doorway.Reposition(_adjacentOffsetX, _adjacentOffsetY);
+        //    doorway.transform.SetParent(room.DoorwayHolder);
+
+        //    room.Doorways.Add(doorway);
+        //}
     }
 
     void GenerateEntities()
     {
+        List<ICell> floors = currentRoom.GetCellsOfType(CellType.Floor);
         foreach (var enemy in enemyPrefabs)
         {
-            Vector2 randPos = GetRandomPosition(_adjacentOffsetX, _adjacentOffsetY);
-            GameObject enemiInstance = Instantiate(enemy, randPos, Quaternion.identity);
-            enemiInstance.transform.SetParent(room.Holder);
+            ICell cell = floors[Random.Range(0, floors.Count)];
+            if (cell == null || cell.cellType != CellType.Floor)
+            {
+                Debug.LogWarning("No valid floor cell found for enemy placement.");
+                continue;
+            }
+            Vector2 position = WorldPos(cell.Position.x, cell.Position.y);
+            GameObject enemyInstance = Instantiate(enemy, position, Quaternion.identity);
+            enemyInstance.transform.SetParent(room.Holder);
+
         }
+    }
+
+    public Vector2 GetSpawnPoint()
+    {
+        ICell cell = currentRoom.GetSpawn();
+
+        return WorldPos(cell.Position.x, cell.Position.y);
+    }
+
+    public Vector2 WorldPos(int x, int y)
+    {
+        ICell cell = currentRoom.grid[x, y];
+        return new Vector2(cell.Position.x + Const.MapRenderOffsetX + _adjacentOffsetX,
+            cell.Position.y + Const.MapRenderOffsetY + _adjacentOffsetY);
     }
 }
 

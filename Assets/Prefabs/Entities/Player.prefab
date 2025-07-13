@@ -252,7 +252,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -276,6 +276,15 @@ MonoBehaviour:
   playerStats: {fileID: 0}
   defaultWeapon: {fileID: 11400000, guid: 51d79657db93f5143bfda64256e3d039, type: 2}
   EquippedWeapon: {fileID: 0}
+  equippedRangedWeapon: {fileID: 0}
+  defaultRangedWeapon: {fileID: 11400000, guid: 2d197019c4427b7468cbf61e14a4238e,
+    type: 2}
+  projectilePrefab: {fileID: 7888907552017300785, guid: fd609b6de761dda459c13d7a1c0bc1be,
+    type: 3}
+  ProjectileInput: 102
+  projectilesCtn: {fileID: 0}
+  ProjectileCooldown: 0.5
+  facing: 0
 --- !u!114 &7181679513194413266
 MonoBehaviour:
   m_ObjectHideFlags: 0

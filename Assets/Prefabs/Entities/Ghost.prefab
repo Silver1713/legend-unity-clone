@@ -288,8 +288,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 3
   ThrustForce: 13
-  templateStats: {fileID: 11400000, guid: 87f4de52da1191642933f4fb1ce4dc79, type: 2}
-  Stats: {fileID: 11400000, guid: 87f4de52da1191642933f4fb1ce4dc79, type: 2}
+  templateStats: {fileID: 11400000, guid: 3d9cb4e3927d7c943bb4086151100aa7, type: 2}
+  Stats: {fileID: 0}
+  COOLDOWN: 0
 --- !u!114 &2444561789958956901
 MonoBehaviour:
   m_ObjectHideFlags: 0
