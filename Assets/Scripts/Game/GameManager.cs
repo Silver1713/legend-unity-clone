@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject player;
     
+    public AnyList anyList;
     void Awake()
     {
         // Check if an instance already exists
@@ -44,6 +45,16 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Debug.Log("Game Manager Started");
+
+        anyList.Add("player.TotalDamage", AnyList.TYPE.FLOAT, totalDamage);
+        anyList.Add("player.TotalHealing", AnyList.TYPE.FLOAT, totalHealing);
+        anyList.Add("player.RangedAttackRatio", AnyList.TYPE.FLOAT, rangedAttackRatio);
+        anyList.Add("player.MeleeAttackRatio", AnyList.TYPE.FLOAT, meleeAttackRatio);
+        anyList.Add("player.MeleeAttacks", AnyList.TYPE.FLOAT, meleeAttacks);
+        anyList.Add("player.RangedAttacks", AnyList.TYPE.FLOAT, rangedAttacks);
+        anyList.Add("player.GameObject", AnyList.TYPE.GAMEOBJECT, player);
+
+
     }
 
     // Update is called once per frame
@@ -69,6 +80,7 @@ public class GameManager : MonoBehaviour
         totalDamage += dmg;
         meleeAttacks += dmg;
         meleeAttackRatio = meleeAttacks / (totalDamage - totalHealing);
+        rangedAttackRatio = rangedAttacks / (totalDamage - totalHealing);
     }
 
     public void Ranged(float dmg)
@@ -76,6 +88,7 @@ public class GameManager : MonoBehaviour
         totalDamage += dmg;
         rangedAttacks += dmg;
         rangedAttackRatio = rangedAttacks / (totalDamage - totalHealing);
+        meleeAttackRatio = meleeAttacks / (totalDamage - totalHealing);
     }
 
     public void PrintStats()
@@ -87,5 +100,17 @@ public class GameManager : MonoBehaviour
 
         ddaEngineWrapper.RecordDamage(totalDamage);
         Debug.Log("Evolved DDA: " + ddaEngineWrapper.GetPlayerSkillLevel());
+    }
+
+
+    public void SaveStats()
+    {
+                anyList.Add("player.TotalDamage", AnyList.TYPE.FLOAT, totalDamage);
+        anyList.Add("player.TotalHealing", AnyList.TYPE.FLOAT, totalHealing);
+        anyList.Add("player.RangedAttackRatio", AnyList.TYPE.FLOAT, rangedAttackRatio);
+        anyList.Add("player.MeleeAttackRatio", AnyList.TYPE.FLOAT, meleeAttackRatio);
+        anyList.Add("player.MeleeAttacks", AnyList.TYPE.FLOAT, meleeAttacks);
+        anyList.Add("player.RangedAttacks", AnyList.TYPE.FLOAT, rangedAttacks);
+        anyList.Add("player.GameObject", AnyList.TYPE.GAMEOBJECT, player);
     }
 }

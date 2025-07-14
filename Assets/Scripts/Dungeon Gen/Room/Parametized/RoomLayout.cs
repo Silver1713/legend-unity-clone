@@ -49,7 +49,10 @@ public class RoomLayout
         if (c == CellType.Door) doorCells.Add(new Vector2Int(x, y));
     }
 
-    public ICell GetCell(int x, int y) => InBounds(x, y) ? grid[x, y] : new ICell(Vector2Int.zero, CellType.Void);
+    public ICell GetCell(int x, int y) => InBounds(x, y) ? grid[x, y] : null;
+
+    public ICell GetCell(Vector2Int position) =>
+        InBounds(position.x, position.y) ? GetCell(position.x, position.y) : null;
 
     public void LayoutRoom(ROOM_SHAPE shape)
     {

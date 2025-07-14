@@ -21,6 +21,12 @@ public class EnemyStats : EntityData
     public float attackSpeed = 10.0f;
     public float attackRange = 3.0f;
     public float attackCooldown = .50f;
-    
+
+
+    [Header("Vision Stats")]
+    public float visionRange = 5.0f;
+    public float visionAngle = 45.0f; // In degrees, 45 means 90 degrees of vision (45 left and 45 right)
+
+
 
 }

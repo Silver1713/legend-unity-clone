@@ -37,6 +37,15 @@ public class RoomManager : MonoBehaviour
     public GameObject switchPrefab;
     public GameObject[] enemyPrefabs;
 
+    enum ENEMY_TYPE
+    {
+        RANGE,
+        SWARM,
+        CONTACT
+    }
+
+
+    
     // A list of possible locations to place tiles.
     //private List<Vector3> gridPositions = new List<Vector3>();
 
@@ -78,7 +87,17 @@ public class RoomManager : MonoBehaviour
         GenerateObjects();
         GenerateEntities();
 
+        AStarPather pather = new AStarPather(currentRoom);
 
+        List<PathNode> path = pather.GetPath(new Vector2Int(2, 2), new Vector2Int(1,1));
+
+        foreach (PathNode VARIABLE in path)
+        {
+            Debug.Log("Path Node: " + VARIABLE.position);
+            
+        }
+
+        pather.PrintAscii();
 
         return room;
     }
@@ -321,7 +340,18 @@ public class RoomManager : MonoBehaviour
     void GenerateEntities()
     {
         List<ICell> floors = currentRoom.GetCellsOfType(CellType.Floor);
-        foreach (var enemy in enemyPrefabs)
+
+
+        int enemyCount = EnemyManager.Instance.GetNumberOfEnemies();
+
+        if (enemyCount <= 0)
+        {
+            Debug.LogWarning("No enemies to spawn in the room.");
+            return;
+        }
+
+
+        for (int i = 0; i < enemyCount; ++i)
         {
             ICell cell = floors[Random.Range(0, floors.Count)];
             if (cell == null || cell.cellType != CellType.Floor)
@@ -330,8 +360,26 @@ public class RoomManager : MonoBehaviour
                 continue;
             }
             Vector2 position = WorldPos(cell.Position.x, cell.Position.y);
-            GameObject enemyInstance = Instantiate(enemy, position, Quaternion.identity);
+            GameObject selectedEnemy = EnemyManager.Instance.GetEnemyPrefab();
+            GameObject enemyInstance = Instantiate(selectedEnemy, position, Quaternion.identity);
+
+            EnemyStateManager enemyStateManager = enemyInstance.GetComponent<EnemyStateManager>();
+            enemyStateManager.Stats.health = EnemyManager.Instance.spawnParameters.DetermineHelth(EnemyManager.Instance.spawnParameters.testWeight);
             enemyInstance.transform.SetParent(room.Holder);
+        }
+
+        foreach (var enemy in enemyPrefabs)
+        {
+            //ICell cell = floors[Random.Range(0, floors.Count)];
+            //if (cell == null || cell.cellType != CellType.Floor)
+            //{
+            //    Debug.LogWarning("No valid floor cell found for enemy placement.");
+            //    continue;
+            //}
+            //Vector2 position = WorldPos(cell.Position.x, cell.Position.y);
+            //GameObject selectedEnemy = EnemyManager.Instance.GetEnemyPrefab();
+            //GameObject enemyInstance = Instantiate(selectedEnemy, position, Quaternion.identity);
+            //enemyInstance.transform.SetParent(room.Holder);
 
         }
     }
