@@ -173,7 +173,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      climb animation _0: -6681379574455545846
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

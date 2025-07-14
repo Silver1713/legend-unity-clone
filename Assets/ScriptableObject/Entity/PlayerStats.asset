@@ -15,5 +15,6 @@ MonoBehaviour:
   strength: 10
   defense: 10
   speed: 10
-  health: 100
-  maxHealth: 100
+  health: 1000
+  maxHealth: 1000
+  Projectile_Cooldown: 0.5

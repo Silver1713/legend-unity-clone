@@ -14,6 +14,7 @@ public class DungeonManager : Singleton<DungeonManager>
     public bool Shifting { get => _shifting; }
     public GameObject mapRoom;
     private GameObject[] _minimapRooms;
+    
 
     private const int rows = 8;
 
@@ -80,6 +81,8 @@ public class DungeonManager : Singleton<DungeonManager>
         _currentRoom = RoomManager.GenerateRoom(_offsetX, _offsetY, new List<Position>(), startRoom);
 
         Vector2 plrPos = RoomManager.GetSpawnPoint();
+        Vector2 offset = new Vector2(0.5f, 0.5f);
+        plrPos += offset;
         _playerTransform.position = plrPos;
 
         _visitedRooms.Add(startRoom, _currentRoom);
@@ -146,6 +149,8 @@ public class DungeonManager : Singleton<DungeonManager>
             _visitedRooms.Add(_nextRoom.ID, _nextRoom);
         }
 
+        
+
         FinishShifting();
     }
 
@@ -193,7 +198,6 @@ public class DungeonManager : Singleton<DungeonManager>
             playerTarget.y = _offsetY + Const.MapRenderOffsetY + Const.UnitSize + 0.55f;
         }
 
-
         // Calculate the time (in seconds) it will take the camera to reach the target position
         float cameraDistance = (_offsetY == 0) ? Const.ScreenWitdth : Const.ScreenHeight;
         float cameraTimeToTarget = cameraDistance / _cameraSpeed;
@@ -236,8 +240,10 @@ public class DungeonManager : Singleton<DungeonManager>
         // Once shifted, reposition current room to 0,0
         _currentRoom.Holder.Translate(new Vector3(-_offsetX, -_offsetY));
         // Reset player to the correct location in the room
-        _playerTransform.Translate(new Vector2(-_offsetX, -_offsetY));
+       // _playerTransform.Translate(new Vector2(-_offsetX, -_offsetY));
         _mainCamera.GetComponent<CameraOffset>().ResetCameraToCenter();
+
+        _playerTransform.position = RoomManager.GetSpawnPoint();
 
         _shifting = false;
     }
@@ -256,6 +262,8 @@ public class DungeonManager : Singleton<DungeonManager>
             List<Position> neighbours = dungeon.GetNeighbours(nextRoomId);
             //DebugNeighbours(neighbours);
             nextRoom = RoomManager.GenerateRoom(_offsetX, _offsetY, neighbours, ++roomID);
+
+
         }
         else
         {

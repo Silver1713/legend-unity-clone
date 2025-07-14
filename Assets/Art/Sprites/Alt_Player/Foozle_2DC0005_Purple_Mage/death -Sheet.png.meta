@@ -998,7 +998,41 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      death -Sheet_0: 6009263305079464995
+      death -Sheet_1: 8646547123781499652
+      death -Sheet_10: 3301431137030788554
+      death -Sheet_11: -4297302028067434971
+      death -Sheet_12: 2537927967015648790
+      death -Sheet_13: -8375259830942619531
+      death -Sheet_14: 5491545879888669797
+      death -Sheet_15: -2323616074423886451
+      death -Sheet_16: -39744118407533887
+      death -Sheet_17: 3403674760924366472
+      death -Sheet_18: 1196731100070574739
+      death -Sheet_19: -3286432814751183816
+      death -Sheet_2: -5117619062809955211
+      death -Sheet_20: 7554295145544334977
+      death -Sheet_21: -3442622619858444855
+      death -Sheet_22: -2085936055247254883
+      death -Sheet_23: -6296741427914367203
+      death -Sheet_24: 2521584892977425539
+      death -Sheet_25: -6852252994110613687
+      death -Sheet_26: 809926284954374873
+      death -Sheet_27: -4278069161403798312
+      death -Sheet_28: 8367118332683469142
+      death -Sheet_29: 6786074839514373637
+      death -Sheet_3: -2299430554741559220
+      death -Sheet_30: 2160237221233134962
+      death -Sheet_31: -7993878524091771459
+      death -Sheet_32: 1715064760486070765
+      death -Sheet_33: 5708123867778549555
+      death -Sheet_4: -2797689277889715704
+      death -Sheet_5: -6388052067204865761
+      death -Sheet_6: -3884853775320908083
+      death -Sheet_7: 3864857592195661714
+      death -Sheet_8: -745491680724469089
+      death -Sheet_9: -8930508466314262754
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

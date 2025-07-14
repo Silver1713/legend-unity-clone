@@ -3,9 +3,6 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using SimpleJSON;
 
-// Unity C# wrapper for DDAEngine
-#define Log Debug.Log("Unity DDAAPI: ")
-
 public class DDAAPI : MonoBehaviour
 {
     #region DLL Imports
@@ -27,11 +24,11 @@ public class DDAAPI : MonoBehaviour
     [DllImport("DDAEngine")]
     private static extern void DDA_EvolveParameters();
 
-    [DllImport("DDAEngine")]
-    private static extern void DDA_GetAIParameters(out AIParameters outParams);
+    //[DllImport("DDAEngine")]
+    //private static extern void DDA_GetAIParameters(out AIParameters outParams);
 
-    [DllImport("DDAEngine")]
-    private static extern void DDA_GetPCGParameters(out PCGParameters outParams);
+    //[DllImport("DDAEngine")]
+    //private static extern void DDA_GetPCGParameters(out PCGParameters outParams);
 
     [DllImport("DDAEngine")]
     private static extern float DDA_GetDifficultyMultiplier();
@@ -72,3 +69,4 @@ public class DDAAPI : MonoBehaviour
     [DllImport("DDAEngine")]
     private static extern void DDA_FreeString(IntPtr str);
     #endregion
+}

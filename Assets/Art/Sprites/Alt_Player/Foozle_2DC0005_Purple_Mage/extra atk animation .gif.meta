@@ -173,7 +173,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      extra atk animation _0: 9013951820045809406
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
