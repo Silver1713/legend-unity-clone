@@ -173,7 +173,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      hurt animation _0: 6463225420235477438
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

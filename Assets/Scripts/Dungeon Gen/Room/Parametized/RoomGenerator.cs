@@ -4,24 +4,30 @@ public static class RoomGenerator
 {
     public static RoomLayout GenerateRoomLayout(int width, int height, GeneratorInfo info)
     {
-        
         RoomLayout layout = new RoomLayout(width, height, info.Seed);
         Random.InitState(info.Seed);
         
-        // Fill room with floors
-        layout.FillFloor();
+        // Fill room with floors first (will be overwritten by layout)
+        //layout.FillFloor();
        
-        layout.PlaceWall();
+        // Place initial walls (will be overwritten by layout)
+        //layout.PlaceWall();
 
-        layout.LayoutRoom((ROOM_SHAPE)Random.Range(0, 3));
+        // Now choose room shape - include RandomWalk as option
+        ROOM_SHAPE selectedShape = (ROOM_SHAPE)Random.Range(0, 5); // Now includes RandomWalk (0-4)
+        layout.LayoutRoom(selectedShape);
 
-        layout.PlaceDoors(info.minDoor, info.maxDoor);
-        
+        // Only place additional doors if not using RandomWalk (which places its own doors)
+        //if (selectedShape != ROOM_SHAPE.RandomWalk)
+        //{
+        //    layout.PlaceDoors(info.minDoor, info.maxDoor);
+        //}
 
-        if (info.onSpawn)
+        if (true)
         {
             layout.PlacePlayerSpawn();  
         }
+        
         return layout;
     }
 }

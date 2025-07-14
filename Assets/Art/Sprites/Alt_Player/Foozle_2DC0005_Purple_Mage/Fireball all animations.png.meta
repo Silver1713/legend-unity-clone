@@ -748,7 +748,31 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Fireball all animations_0: 8807804466189624383
+      Fireball all animations_1: 5618421232437724674
+      Fireball all animations_10: 8107655819972512329
+      Fireball all animations_11: 2219128354323612315
+      Fireball all animations_12: 1438382416593493287
+      Fireball all animations_13: 2194177083577346388
+      Fireball all animations_14: 6960691291379553279
+      Fireball all animations_15: 173218450644499977
+      Fireball all animations_16: 3574374857147543436
+      Fireball all animations_17: -7834281093927446580
+      Fireball all animations_18: 8576456103899971634
+      Fireball all animations_19: -5537318257590713855
+      Fireball all animations_2: -835068547724211960
+      Fireball all animations_20: 1508311802127612591
+      Fireball all animations_21: -243526158639166824
+      Fireball all animations_22: 3951612288511042700
+      Fireball all animations_23: 2834150643737141588
+      Fireball all animations_3: -5652457246038297116
+      Fireball all animations_4: 5059885007385422476
+      Fireball all animations_5: 122173279822179988
+      Fireball all animations_6: -2235201790506420605
+      Fireball all animations_7: 8575230720616638850
+      Fireball all animations_8: 3055827544410597180
+      Fireball all animations_9: 5534580368545918154
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

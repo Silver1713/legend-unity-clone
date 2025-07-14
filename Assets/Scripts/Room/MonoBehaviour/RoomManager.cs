@@ -265,77 +265,73 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    void GenerateDoorways()
+
+/// <summary>
+/// Converts your DIRECTION enum into the Position enum you use
+/// on your DoorwayPrefabs list.
+/// </summary>
+private Position DirectionToPositionEnum(DIRECTION dir)
+{
+    switch (dir)
     {
-        List<ICell> doors = currentRoom.GetDoors();
-        if (doors.Count == 0)
-        {   
-            Debug.LogWarning("No doors found in the room layout.");
-
-        }
-        // If there are no doorways, we don't need to generate any
-        foreach (var door in doors)
-        {
-            Doorway doorway = null;
-            switch (door.direction)
-            {
-                case DIRECTION.Up:
-                    // _adjacentRooms.Add(Position.TOP);
-                    doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.TOP), room.DoorwayHolder);
-                    Vector2 position1 = WorldPos(door.Position.x, door.Position.y);
-                    doorway.transform.position = position1;
-                    doorway.transform.position = new Vector3(door.Position.x, door.Position.y + 1, 0f);
-
-                    break;
-
-                case DIRECTION.Down:
-                    // _adjacentRooms.Add(Position.BOTTOM);
-                    doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.BOTTOM), room.DoorwayHolder);
-                    Vector2 position2 = WorldPos(door.Position.x, door.Position.y);
-                    doorway.transform.position = position2;
-
-                    doorway.transform.position = new Vector3(door.Position.x, door.Position.y, 0f);
-
-                    break;
-                case DIRECTION.Left:
-                    //    _adjacentRooms.Add(Position.LEFT);
-                    doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.LEFT), room.DoorwayHolder);
-                    Vector2 position3 = WorldPos(door.Position.x, door.Position.y);
-                    doorway.transform.position = position3;
-
-                    break;
-                case DIRECTION.Right:
-                    // _adjacentRooms.Add(Position.RIGHT);
-                    doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.RIGHT), room.DoorwayHolder);
-                    Vector2 position4 = WorldPos(door.Position.x, door.Position.y);
-                    doorway.transform.position = position4;
-
-                    break;
-            }
-
-            if (doorway == null)
-            {
-
-                Debug.LogError("Doorway prefab not found for direction: " + door.direction);
-                continue;
-            }
-           
-            room.Doorways.Add(doorway);
-
-            
-
-
-        }
-
-        //foreach (var roomPosition in _adjacentRooms)
-        //{
-        //    Doorway doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == roomPosition));
-        //    doorway.Reposition(_adjacentOffsetX, _adjacentOffsetY);
-        //    doorway.transform.SetParent(room.DoorwayHolder);
-
-        //    room.Doorways.Add(doorway);
-        //}
+        case DIRECTION.Up:    return Position.TOP;
+        case DIRECTION.Down:  return Position.BOTTOM;
+        case DIRECTION.Left:  return Position.LEFT;
+        case DIRECTION.Right: return Position.RIGHT;
+        default: throw new ArgumentOutOfRangeException(nameof(dir), dir, null);
     }
+}
+
+
+    void GenerateDoorways()
+{
+    List<ICell> doors = currentRoom.GetDoors();
+    if (doors.Count == 0)
+    {   
+        Debug.LogWarning("No doors found in the room layout.");
+        return;
+    }
+    
+    foreach (var door in doors)
+    {
+        Doorway doorway = null;
+        Vector2 doorPosition = WorldPos(door.Position.x, door.Position.y);
+        
+        switch (door.direction)
+        {
+            case DIRECTION.Up:
+                doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.TOP), room.DoorwayHolder);
+                // For top doors, you might need to adjust Y position if the door prefab's pivot is at the bottom
+                // Remove the +1 adjustment if your door prefab is already positioned correctly
+                doorway.transform.position = new Vector3(doorPosition.x, doorPosition.y, 0f);
+                break;
+
+            case DIRECTION.Down:
+                doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.BOTTOM), room.DoorwayHolder);
+                doorway.transform.position = new Vector3(doorPosition.x, doorPosition.y-1f, 0f);
+                doorway.transform.position = doorPosition;
+                break;
+                
+            case DIRECTION.Left:
+                doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.LEFT), room.DoorwayHolder);
+                doorway.transform.position = new Vector3(doorPosition.x-1f, doorPosition.y, 0f);
+                break;
+                
+            case DIRECTION.Right:
+                doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.RIGHT), room.DoorwayHolder);
+                doorway.transform.position = doorPosition;
+                break;
+        }
+
+        if (doorway == null)
+        {
+            Debug.LogError("Doorway prefab not found for direction: " + door.direction);
+            continue;
+        }
+       
+        room.Doorways.Add(doorway);
+    }
+}
 
     void GenerateEntities()
     {
@@ -394,8 +390,12 @@ public class RoomManager : MonoBehaviour
     public Vector2 WorldPos(int x, int y)
     {
         ICell cell = currentRoom.grid[x, y];
+        if (cell.cellType == CellType.Door)
         return new Vector2(cell.Position.x + Const.MapRenderOffsetX + _adjacentOffsetX,
             cell.Position.y + Const.MapRenderOffsetY + _adjacentOffsetY);
+        else
+            return new Vector2(cell.Position.x + Const.MapRenderOffsetX,
+         cell.Position.y + Const.MapRenderOffsetY);
     }
 }
 

@@ -2,8 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEditor.Search;
 
+// Add this to your existing ROOM_SHAPE enum in RoomLayout.cs
+public enum ROOM_SHAPE { XShape, TShape, Rectangle, LShape, RandomWalk }
 
-public enum ROOM_SHAPE { LShape}
 public class RoomLayout
 {
 
@@ -54,24 +55,29 @@ public class RoomLayout
     public ICell GetCell(Vector2Int position) =>
         InBounds(position.x, position.y) ? GetCell(position.x, position.y) : null;
 
+    // Add this method to your existing RoomLayout class
     public void LayoutRoom(ROOM_SHAPE shape)
     {
-        switch (shape)
+        /*switch (shape)
         {
-            //case ROOM_SHAPE.Square:
-            //    CarveSquare();
-            //    break;
-            //case ROOM_SHAPE.Rectangle:
-            //    CarveRectangle(w, h);
-            //    break;
+            case ROOM_SHAPE.Rectangle:
+                CarveRectangle(w, h);
+                break;
             case ROOM_SHAPE.LShape:
                 CarveLShape();
                 break;
-            //case ROOM_SHAPE.TShape:
-            //    CarveTShape();
-            //    break;
-
-        }
+            case ROOM_SHAPE.TShape:
+                CarveTShape();
+                break;
+            case ROOM_SHAPE.XShape:
+                CarveCrossShape();
+                break;
+            case ROOM_SHAPE.RandomWalk:
+                // Use the new random walk generator
+                this.GenerateRandomWalk(minSize: 25, maxSize: 80, doorCount: 4, seed: this.seed);
+                break;
+        }*/
+        this.GenerateRandomWalk(minSize: 25, maxSize: 80, doorCount: 2, cornerIntensity: 0.5f, seed: this.seed);
     }
 
     public void CarveLShape()
@@ -358,13 +364,12 @@ public class RoomLayout
     public void PlacePlayerSpawn()
     {
         List<Vector2Int> spawnPosition = new List<Vector2Int>();
-        for (int y = 1; y < h - 1; y++)
+        for (int y = 2; y < h - 2; y++)
         {
-            for (int x = 1; x < w - 1; x++)
+            for (int x = 2; x < w - 2; x++)
             {
                 if (grid[x, y].cellType == CellType.Floor)
                 {
-                    
                     spawnPosition.Add(new Vector2Int(x, y));
                 }
             }
@@ -399,8 +404,6 @@ public class RoomLayout
         }
 
     }
-
-
 
     public void FillFloor()
     {
