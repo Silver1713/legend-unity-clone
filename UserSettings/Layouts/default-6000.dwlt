@@ -8,7 +8,7 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
-  m_EditorHideFlags: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 12004, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1706.6667
     height: 976
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Console
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 100
+  controlID: 37
   draggingID: 0
 --- !u!114 &3
 MonoBehaviour:
@@ -327,7 +327,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Game
+    - Assets/Configuration
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -337,16 +337,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/Game
+  - Assets/Configuration
   m_LastFoldersGridSize: -1
   m_LastProjectPath: F:\Unity Projects\legend-unity
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 443.3333}
-    m_SelectedIDs: 10770000
-    m_LastClickedID: 30480
-    m_ExpandedIDs: 0000000080760000827600008476000086760000887600008a7600008c7600008e76000090760000927600009476000096760000
+    scrollPos: {x: 0, y: 127}
+    m_SelectedIDs: e07f0000
+    m_LastClickedID: 32736
+    m_ExpandedIDs: 0000000086760000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -375,7 +375,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000080760000827600008476000086760000887600008a7600008c7600008e76000090760000927600009476000096760000
+    m_ExpandedIDs: 0000000086760000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1144,9 +1144,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: -14.179359, y: -4.592662, z: -0.19635087}
+    m_Target: {x: 8.022421, y: -6.3738065, z: -0.220376}
     speed: 2
-    m_Value: {x: -14.179359, y: -4.592662, z: -0.19635087}
+    m_Value: {x: 8.022421, y: -6.3738065, z: -0.220376}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1196,9 +1196,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 23.22656
+    m_Target: 25.62921
     speed: 2
-    m_Value: 23.22656
+    m_Value: 25.62921
   m_Ortho:
     m_Target: 1
     speed: 2
