@@ -32,6 +32,10 @@ public class RoomManager : MonoBehaviour
     public GameObject topRightCornerTile;
     public GameObject bottomLeftCornerTile;
     public GameObject bottomRightCornerTile;
+    public GameObject innertopLeftCornerTile;
+    public GameObject innertopRightCornerTile;
+    public GameObject innerbottomLeftCornerTile;
+    public GameObject innerbottomRightCornerTile;
 
     public List<Doorway> DoorwayPrefabs;
     public GameObject switchPrefab;
