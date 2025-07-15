@@ -80,7 +80,7 @@ public class RandomWalkRoomGenerator
         {
             // Randomly choose a direction
             int dir = Random.Range(0, directions.Count);
-            dir = (Random.Range(0f, 1f) > cornerIntensity || prev_dir==-1) ? dir : prev_dir;
+            dir = (Random.Range(0f, 1f) < cornerIntensity || prev_dir==-1) ? dir : prev_dir;
             Vector2Int direction = directions[dir];
             
             // Calculate the new position
@@ -355,7 +355,7 @@ private DIRECTION DetermineWallDirection(int x, int y, CellType[,] grid)
         List<Vector2Int> doors = new List<Vector2Int>();
         var wallCells = roomLayout.GetCellsOfType(CellType.Wall);
 
-        for (int i = 0; i < actualDoorCount && doors.Count < actualDoorCount; i++)
+        for (int i = 0; (i < actualDoorCount || doors.Count == 0) && doors.Count < actualDoorCount; i++)
         {
             foreach (var wallCell in wallCells)
             {
@@ -367,8 +367,21 @@ private DIRECTION DetermineWallDirection(int x, int y, CellType[,] grid)
                     if (Random.Range(0, 100) < 25) // 25% chance to place door
                     {
                         DIRECTION doorDirection = wallCell.direction;
-                        roomLayout.SetCell(pos.x, pos.y, CellType.Door, doorDirection);
-                        doors.Add(pos);
+                        bool isvaliddoubledoor = false;
+                        if (doorDirection == DIRECTION.Down || doorDirection == DIRECTION.Up){
+                            Vector2Int d2pos = pos;
+                            d2pos.x+=1;
+                            isvaliddoubledoor = IsValidDoorPosition(d2pos, directions, doors);
+                        }
+                        else{
+                            Vector2Int d2pos = pos;
+                            d2pos.y+=1;
+                            isvaliddoubledoor = IsValidDoorPosition(d2pos, directions, doors);
+                        }
+                        if(isvaliddoubledoor){
+                            roomLayout.SetCell(pos.x, pos.y, CellType.Door, doorDirection);
+                            doors.Add(pos);
+                        }
                     }
                 }
             }

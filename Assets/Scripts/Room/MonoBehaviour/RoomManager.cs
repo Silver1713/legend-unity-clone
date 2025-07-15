@@ -309,7 +309,6 @@ private Position DirectionToPositionEnum(DIRECTION dir)
             case DIRECTION.Down:
                 doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.BOTTOM), room.DoorwayHolder);
                 doorway.transform.position = new Vector3(doorPosition.x, doorPosition.y-1f, 0f);
-                doorway.transform.position = doorPosition;
                 break;
                 
             case DIRECTION.Left:

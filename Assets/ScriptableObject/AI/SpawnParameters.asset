@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb56a2646e4f4b4a93432ce2213fa71, type: 3}
   m_Name: SpawnParameters
   m_EditorClassIdentifier: 
-  minEnemies: 10
+  minEnemies: 0
   maxEnemies: 20
-  testWeight: 0.2334
+  minHealth: 30
+  maxHealth: 100
+  testWeight: 0
   weights:
   - key: 0
     value: 2.5

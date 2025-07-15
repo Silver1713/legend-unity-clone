@@ -243,7 +243,9 @@ public class DungeonManager : Singleton<DungeonManager>
        // _playerTransform.Translate(new Vector2(-_offsetX, -_offsetY));
         _mainCamera.GetComponent<CameraOffset>().ResetCameraToCenter();
 
-        _playerTransform.position = RoomManager.GetSpawnPoint();
+        Vector2 offset = new Vector2(0.5f, 0.5f);
+
+        _playerTransform.position = RoomManager.GetSpawnPoint() + offset;
 
         _shifting = false;
     }
