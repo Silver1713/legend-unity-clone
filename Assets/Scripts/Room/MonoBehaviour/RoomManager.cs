@@ -37,6 +37,9 @@ public class RoomManager : MonoBehaviour
     public GameObject switchPrefab;
     public GameObject[] enemyPrefabs;
 
+
+    public int enemies = 0;
+
     enum ENEMY_TYPE
     {
         RANGE,
@@ -335,10 +338,15 @@ private Position DirectionToPositionEnum(DIRECTION dir)
 
     void GenerateEntities()
     {
+        
         List<ICell> floors = currentRoom.GetCellsOfType(CellType.Floor);
 
 
+
+
         int enemyCount = EnemyManager.Instance.GetNumberOfEnemies();
+        GameManager.Instance.ResetEnemy();
+        GameManager.Instance.roomEnemies = enemyCount;
 
         if (enemyCount <= 0)
         {
@@ -346,7 +354,7 @@ private Position DirectionToPositionEnum(DIRECTION dir)
             return;
         }
 
-
+        enemies = enemyCount;
         for (int i = 0; i < enemyCount; ++i)
         {
             ICell cell = floors[Random.Range(0, floors.Count)];
@@ -355,7 +363,7 @@ private Position DirectionToPositionEnum(DIRECTION dir)
                 Debug.LogWarning("No valid floor cell found for enemy placement.");
                 continue;
             }
-            Vector2 position = WorldPos(cell.Position.x, cell.Position.y);
+            Vector2 position = WorldPos(cell.Position.x, cell.Position.y, true);
             GameObject selectedEnemy = EnemyManager.Instance.GetEnemyPrefab();
             GameObject enemyInstance = Instantiate(selectedEnemy, position, Quaternion.identity);
 
@@ -380,6 +388,8 @@ private Position DirectionToPositionEnum(DIRECTION dir)
         }
     }
 
+
+ 
     public Vector2 GetSpawnPoint()
     {
         ICell cell = currentRoom.GetSpawn();
@@ -387,10 +397,10 @@ private Position DirectionToPositionEnum(DIRECTION dir)
         return WorldPos(cell.Position.x, cell.Position.y);
     }
 
-    public Vector2 WorldPos(int x, int y)
+    public Vector2 WorldPos(int x, int y, bool entity=false)
     {
         ICell cell = currentRoom.grid[x, y];
-        if (cell.cellType == CellType.Door)
+        if (cell.cellType == CellType.Door || entity)
         return new Vector2(cell.Position.x + Const.MapRenderOffsetX + _adjacentOffsetX,
             cell.Position.y + Const.MapRenderOffsetY + _adjacentOffsetY);
         else

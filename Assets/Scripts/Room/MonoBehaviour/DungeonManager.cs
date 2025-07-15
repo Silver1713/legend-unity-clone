@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,6 +41,7 @@ public class DungeonManager : Singleton<DungeonManager>
     private Dictionary<int, Room> _visitedRooms;
     private Transform _dungeonHolder;
 
+    private GameManager _gameManager;
     #region Monobehaviour
     protected override void Awake()
     {
@@ -88,6 +90,16 @@ public class DungeonManager : Singleton<DungeonManager>
         _visitedRooms.Add(startRoom, _currentRoom);
 
         DDAEngine.StartLevel(roomID.ToString());
+
+        _gameManager = GameManager.Instance;
+    }
+
+    private void Update()
+    {
+        if (_gameManager.roomEnemyKilled == _gameManager.roomEnemies)
+        {
+            _currentRoom.OpenAllDoors(true);
+        }
     }
 
     #endregion
@@ -215,12 +227,12 @@ public class DungeonManager : Singleton<DungeonManager>
 
         DDAEngine.EndLevel();
         GameManager.Instance.PrintStats();
-
+        _playerTransform.gameObject.SetActive(false);
         while (Vector3.Distance(_mainCamera.position, target) > 0.0001f)
         {
             float step = _cameraSpeed * Time.deltaTime;
             _mainCamera.position = Vector3.MoveTowards(_mainCamera.position, target, step);
-            _playerTransform.position = Vector3.MoveTowards(_playerTransform.position, playerTarget,  playerVelocity * Time.deltaTime);
+            //_playerTransform.position = Vector3.MoveTowards(_playerTransform.position, playerTarget,  playerVelocity * Time.deltaTime);
             yield return null;
         }
     }
@@ -242,10 +254,12 @@ public class DungeonManager : Singleton<DungeonManager>
         // Reset player to the correct location in the room
        // _playerTransform.Translate(new Vector2(-_offsetX, -_offsetY));
         _mainCamera.GetComponent<CameraOffset>().ResetCameraToCenter();
-
+        _playerTransform.gameObject.SetActive(true);
         _playerTransform.position = RoomManager.GetSpawnPoint();
 
         _shifting = false;
+
+        
     }
 
     private Room GetNextRoom(Position direction)
