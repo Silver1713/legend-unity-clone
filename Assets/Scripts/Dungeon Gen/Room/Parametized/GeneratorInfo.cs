@@ -9,13 +9,20 @@ public enum DOOR_TYPE
     LEFT,
     RIGHT
 }
+[System.Serializable]
 public struct GeneratorInfo
 {
-    public int Seed;
-    public int RoomCount;
-    public List<DOOR_TYPE> doors;
-    public int minDoor;
-    public int maxDoor;
-    public bool onSpawn;
+   [SerializeField] public int Seed;
+   [SerializeField] public int RoomCount;
+   [SerializeField] public List<DOOR_TYPE> doors;
+   [SerializeField] public int minDoor;
+   [SerializeField] public int maxDoor;
+   [SerializeField] public bool onSpawn;
+
+   [SerializeField] public int randomWalkMin;
+   [SerializeField] public int randomWalkMax;
+   [SerializeField] public float cornerIntensity;
+
+
 
 }

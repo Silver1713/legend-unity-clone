@@ -399,6 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93c47d5758c86b347b84ea646895749d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pcgParams: {fileID: 11400000, guid: 99c2c4b2f07b75a418b70af441587e57, type: 2}
   floorTiles:
   - {fileID: 1880599223656490525, guid: 690e475c8727c494bbed65794e282e43, type: 3}
   - {fileID: 7544728908317936455, guid: 4c3382ed5ff297f40ad279af67701ca1, type: 3}
