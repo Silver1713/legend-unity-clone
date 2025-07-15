@@ -18,6 +18,6 @@ MonoBehaviour:
   enemyDensity: 0.25
   treasureChance: 0.2
   obstacleComplexity: 0.1
-  minSize: 1000
-  maxSize: 1000
+  minSize: 25
+  maxSize: 50
   cornerIntensity: 2

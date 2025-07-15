@@ -19,14 +19,14 @@ public class AnyList
         // Add more types as needed
     }
     [SerializeField]
-    public List<KeyValuePair<string, KeyValuePair<TYPE, object>>> list =
-        new List<KeyValuePair<string, KeyValuePair<TYPE, object>>>();
+    public List<SKeyValuePair<string, SKeyValuePair<TYPE, object>>> list =
+        new List<SKeyValuePair<string, SKeyValuePair<TYPE, object>>>();
 
     public void Add<T>(string name, TYPE t, T value)
     {
-        list.Add(new KeyValuePair<string, KeyValuePair<TYPE, object>>(
+        list.Add(new SKeyValuePair<string, SKeyValuePair<TYPE, object>>(
             name,
-            new KeyValuePair<TYPE, object>(t, value)
+            new SKeyValuePair<TYPE, object>(t, value)
         ));
     }
 

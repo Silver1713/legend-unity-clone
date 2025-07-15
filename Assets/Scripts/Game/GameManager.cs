@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
 
     public int roomEnemyKilled;
 
+    [SerializeField]
+    public DDAConfigBuilder builder;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -30,7 +33,12 @@ public class GameManager : MonoBehaviour
     }
 
     public GameObject player;
-    
+
+    public float cornerIntensity;
+    public float time = 0;
+
+    public DDAEngineWrapper ddaEngineWrapperInstance;
+
     public AnyList anyList;
     void Awake()
     {
@@ -38,6 +46,7 @@ public class GameManager : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
+            DontDestroyOnLoad(Instance);
 
         }
         else
@@ -46,11 +55,20 @@ public class GameManager : MonoBehaviour
         }
 
 
+
+
         
 
     }
     void Start()
     {
+        DDAConfigBuilder ddaConfigBuilder = DDAConfigBuilder.instance;
+        
+      
+
+        // Write the JSON to a file
+        string newConfigPath = "Assets/Configuration/DEFAULT_GENERIC_CONFIG.json";
+        System.IO.File.WriteAllText(newConfigPath, ddaConfigBuilder.ToJSON());
         Debug.Log("Game Manager Started");
 
         anyList.Add("player.TotalDamage", AnyList.TYPE.FLOAT, totalDamage);
@@ -62,14 +80,36 @@ public class GameManager : MonoBehaviour
         anyList.Add("player.GameObject", AnyList.TYPE.GAMEOBJECT, player);
 
 
+        DDAConfigBuilder builder = DDAConfigBuilder.instance;
+        
+
+        DDAAPI ddapi = DDAAPI.instance;
+
+        ddapi.LoadConfig(builder);
+        ddapi.InitalizeNative();
+
+        
+
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        time += Time.deltaTime;
+
+        DDAAPI.instance.CollectMetric("player.timetaken", time);
+
     }
 
+    public void EndLevel()
+    {
+        DDAAPI.instance.LevelEnding = true;
+        DDAAPI.instance.Advance();
+        DDAAPI.instance.GetJSON();
+        DDAAPI.instance.LevelEnding = false;
+    }
 
     public void SetPlayer(GameObject obj)
     {
@@ -111,13 +151,13 @@ public class GameManager : MonoBehaviour
 
     public void PrintStats()
     {
-                Debug.Log($"Total Damage: {totalDamage}");
-        Debug.Log($"Total Healing: {totalHealing}");
-        Debug.Log($"Ranged Attack Ratio: {rangedAttackRatio}");
-        Debug.Log($"Melee Attack Ratio: {meleeAttackRatio}");
+        //        Debug.Log($"Total Damage: {totalDamage}");
+        //Debug.Log($"Total Healing: {totalHealing}");
+        //Debug.Log($"Ranged Attack Ratio: {rangedAttackRatio}");
+        //Debug.Log($"Melee Attack Ratio: {meleeAttackRatio}");
 
-        ddaEngineWrapper.RecordDamage(totalDamage);
-        Debug.Log("Evolved DDA: " + ddaEngineWrapper.GetPlayerSkillLevel());
+        ////ddaEngineWrapper.RecordDamage(totalDamage);
+        //Debug.Log("Evolved DDA: " + ddaEngineWrapper.GetPlayerSkillLevel());
     }
 
 

@@ -2,9 +2,10 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-
+using Defective.JSON;
 using UnityEngine;
 using SimpleJSON;
+using Random = UnityEngine.Random;
 
 // Unity C# wrapper for DDAEngine
 
@@ -42,6 +43,7 @@ public struct PCGParameters
 
 public class DDAAPI : MonoBehaviour
 {
+    public bool LevelEnding = false;
 
     #region DLL Imports
 
@@ -50,6 +52,8 @@ public class DDAAPI : MonoBehaviour
 
     [DllImport("DDAEngine")]
     private static extern int DDA_LoadConfig(string json);
+    [DllImport("DDAEngine")]
+    private static extern void DDA_SetAnyIdealMetric(string metric, float value);
     [DllImport("DDAEngine")]
     private static extern int DDA_INIT();
     [DllImport("DDAEngine")]
@@ -115,15 +119,81 @@ public class DDAAPI : MonoBehaviour
     [DllImport("DDAEngine")]
     private static extern void DDA_FreeString(IntPtr str);
 
+    [DllImport("DDAEngine")]
+    private static extern void DDA_AdvanceEngine();
+
     #endregion
 
+    public static DDAAPI instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
+
         //Read from Assets/Configuration/...
-        string path = "F:\\Unity Projects\\legend-unity\\Assets\\Configuration\\shooter_game_config.json";
+        //OnDDAStart();
+        
+
+
+
+    }
+
+    public void LoadConfig(DDAConfigBuilder config)
+    {
+        string data = config.ToJSON();
+        int result = DDA_LoadConfig(data);
+        if (result != 0)
+        {
+            Debug.LogError("Failed to load DDA configuration with error code: " + result);
+        }
+        else
+        {
+            Debug.Log("DDA configuration loaded successfully.");
+        }
+    }
+
+    public void InitalizeNative()
+    {
+        DDA_Initialize();
+        DDA_SetMode(2);
+
+    }
+
+    public void CollectMetric(string metricName, float value)
+    {
+        if (!LevelEnding)
+        DDA_CollectMetric(metricName, value);
+    }
+    public void CollectMetricInt(string metricName, int value)
+    {
+        DDA_CollectMetricInt(metricName, value);
+    }
+
+    public void Advance()
+    {
+        DDA_AdvanceEngine();
+        
+    }
+
+   
+
+    public void OnDDAStart()
+    {
+        string path = "";
         string jsonData =
-            File.ReadAllText(path);
+            DDAConfigBuilder.instance.ToJSON();
         Debug.Log(jsonData);
         int initResult = DDA_LoadConfig(jsonData);
         if (initResult != 0)
@@ -132,6 +202,49 @@ public class DDAAPI : MonoBehaviour
             return;
         }
 
+        DDA_Initialize();
+
+        for (int i =0; i < 3; i++)
+        {
+           OnDDALevelStart();
+
+           for (int x=0; x < 100; x++)
+           {
+               float r = Random.Range(0f, 2f);
+               DDA_CollectMetric("TestMetric", r);
+           }
+           DDA_AdvanceEngine();
+           GetJSON();
+        }
+
 
     }
+
+    public void OnDDALevelStart()
+    {
+        DDA_CollectMetric("TestMetric", Random.Range(0f, 1f));
+    }
+
+    public void OnDDAUpdate(float deltaTime)
+    {
+        DDA_UpdateAdaptive(deltaTime);
+    }
+
+    public void OnDDALevelEnd()
+    {
+        DDA_EvolveParameters();
+
+    }
+
+
+
+    public void GetJSON()
+    {
+       string state = Marshal.PtrToStringAnsi(DDA_ExportParametersJson());
+        Debug.Log("Exported JSON: " + state);
+        DDA_FreeString(Marshal.StringToHGlobalAnsi(state));
+        DDAConfigBuilder.instance.FromJSON(state);
+       
+    }
+
 }

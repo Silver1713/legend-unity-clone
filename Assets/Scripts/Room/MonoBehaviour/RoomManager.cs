@@ -21,7 +21,7 @@ public class RoomManager : MonoBehaviour
             maximum = max;
         }
     }
-    public PCGParams pcgParams;
+
     // Arrays of tile prefabs
     public GameObject[] floorTiles;
     public GameObject[] topWallsTiles;
@@ -36,6 +36,8 @@ public class RoomManager : MonoBehaviour
     public List<Doorway> DoorwayPrefabs;
     public GameObject switchPrefab;
     public GameObject[] enemyPrefabs;
+
+    public PCGParams Params;
 
 
     public int enemies = 0;
@@ -61,9 +63,6 @@ public class RoomManager : MonoBehaviour
 
     private List<Position> _adjacentRooms;
 
-  
-    
-
 
     public RoomLayout currentRoom;
     private bool onSpawn = true;
@@ -84,16 +83,16 @@ public class RoomManager : MonoBehaviour
             minDoor = 1,
             maxDoor = 3,
             onSpawn = onSpawn,
-            randomWalkMin = pcgParams.minSize,
-            randomWalkMax = pcgParams.maxSize,
-            cornerIntensity = pcgParams.cornerIntensity
+            randomWalkMin = Params.minSize,
+            randomWalkMax = Params.maxSize,
+            cornerIntensity = Params.cornerIntensity
         });
         currentRoom = layout;
         Debug.Log(layout.ToAscii());
         onSpawn = false;
         GenerateWallsAndFloors(currentRoom);
         GenerateDoorways();
-       // GenerateObjects();
+        GenerateObjects();
         GenerateEntities();
 
         AStarPather pather = new AStarPather(currentRoom);
@@ -153,7 +152,7 @@ public class RoomManager : MonoBehaviour
                 {
                     tile = floorTiles[Random.Range(0, floorTiles.Length)];
                 }
-                else if (cell.cellType == CellType.Wall || cell.cellType == CellType.Door)
+                else if (cell.cellType == CellType.Wall)
                 {
                     if (cell.direction == DIRECTION.Left)
                     {
@@ -368,8 +367,7 @@ private Position DirectionToPositionEnum(DIRECTION dir)
                 Debug.LogWarning("No valid floor cell found for enemy placement.");
                 continue;
             }
-            Vector2 offset = new Vector2(0.5f, 0.5f);
-            Vector2 position = WorldPos(cell.Position.x, cell.Position.y, true) + offset;
+            Vector2 position = WorldPos(cell.Position.x, cell.Position.y, true);
             GameObject selectedEnemy = EnemyManager.Instance.GetEnemyPrefab();
             GameObject enemyInstance = Instantiate(selectedEnemy, position, Quaternion.identity);
 

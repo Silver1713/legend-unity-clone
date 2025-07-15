@@ -12,7 +12,7 @@ public class SpawnParameters : DDAParameters
 
 
     public float testWeight = 0.443f;
-    public List<KeyValuePair<EnemyManager.EnemyType, float>> weights;
+    [SerializeField]public List<SKeyValuePair<EnemyManager.EnemyType, float>> weights;
 
 
 
