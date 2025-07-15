@@ -87,7 +87,7 @@ public class RoomManager : MonoBehaviour
         onSpawn = false;
         GenerateWallsAndFloors(currentRoom);
         GenerateDoorways();
-        GenerateObjects();
+       // GenerateObjects();
         GenerateEntities();
 
         AStarPather pather = new AStarPather(currentRoom);
@@ -364,6 +364,7 @@ private Position DirectionToPositionEnum(DIRECTION dir)
                 continue;
             }
             Vector2 position = WorldPos(cell.Position.x, cell.Position.y, true);
+            position += new Vector2(0.5f, 0.5f);
             GameObject selectedEnemy = EnemyManager.Instance.GetEnemyPrefab();
             GameObject enemyInstance = Instantiate(selectedEnemy, position, Quaternion.identity);
 
