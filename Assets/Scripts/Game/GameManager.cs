@@ -15,6 +15,13 @@ public class GameManager : MonoBehaviour
 
     public float meleeAttacks;
     public float rangedAttacks;
+
+    [Header("Room Statistics")] 
+    public int roomEnemies;
+
+    public int roomEnemyKilled;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public static GameManager Instance
@@ -74,6 +81,17 @@ public class GameManager : MonoBehaviour
         return player;
     }
 
+
+    public void EnemyDied()
+    {
+        roomEnemyKilled++;
+    }
+
+    public void ResetEnemy()
+    {
+                roomEnemies = 0;
+        roomEnemyKilled = 0;
+    }
 
     public void Melee(float dmg)
     {
