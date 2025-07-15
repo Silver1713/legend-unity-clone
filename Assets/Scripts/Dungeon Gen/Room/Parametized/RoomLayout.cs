@@ -77,7 +77,7 @@ public class RoomLayout
                 this.GenerateRandomWalk(minSize: 25, maxSize: 80, doorCount: 4, seed: this.seed);
                 break;
         }*/
-        this.GenerateRandomWalk(minSize: 25, maxSize: 80, doorCount: 2, cornerIntensity: 0.5f, seed: this.seed);
+        this.GenerateRandomWalk(minSize: 25, maxSize: 80, doorCount: 2, cornerIntensity: 1f, seed: this.seed);
     }
 
     public void CarveLShape()

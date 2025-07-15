@@ -9,18 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cb56a2646e4f4b4a93432ce2213fa71, type: 3}
-  m_Name: SpawnParameters
+  m_Script: {fileID: 11500000, guid: bc36c38c65a4d9045b0dfa3a3b602b58, type: 3}
+  m_Name: PCGParams
   m_EditorClassIdentifier: 
-  minEnemies: 1
-  maxEnemies: 20
-  minHealth: 30
-  maxHealth: 100
-  testWeight: 0.1123
-  weights:
-  - key: 0
-    value: 2.5
-  - key: 1
-    value: 3.3
-  - key: 2
-    value: 10
+  roomSize: 12
+  shapePattern: Rect
+  trapCount: 3
+  enemyDensity: 0.25
+  treasureChance: 0.2
+  obstacleComplexity: 0.1

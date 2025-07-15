@@ -254,8 +254,11 @@ public class DungeonManager : Singleton<DungeonManager>
         // Reset player to the correct location in the room
        // _playerTransform.Translate(new Vector2(-_offsetX, -_offsetY));
         _mainCamera.GetComponent<CameraOffset>().ResetCameraToCenter();
+
+        Vector2 offset = new Vector2(0.5f, 0.5f);
+
         _playerTransform.gameObject.SetActive(true);
-        _playerTransform.position = RoomManager.GetSpawnPoint();
+        _playerTransform.position = RoomManager.GetSpawnPoint() + offset;
 
         _shifting = false;
 

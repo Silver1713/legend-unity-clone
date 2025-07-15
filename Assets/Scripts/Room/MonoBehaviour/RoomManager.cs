@@ -312,7 +312,6 @@ private Position DirectionToPositionEnum(DIRECTION dir)
             case DIRECTION.Down:
                 doorway = Instantiate(DoorwayPrefabs.Find(x => x.position == Position.BOTTOM), room.DoorwayHolder);
                 doorway.transform.position = new Vector3(doorPosition.x, doorPosition.y-1f, 0f);
-                doorway.transform.position = doorPosition;
                 break;
                 
             case DIRECTION.Left:
@@ -363,8 +362,8 @@ private Position DirectionToPositionEnum(DIRECTION dir)
                 Debug.LogWarning("No valid floor cell found for enemy placement.");
                 continue;
             }
-            Vector2 position = WorldPos(cell.Position.x, cell.Position.y, true);
-            position += new Vector2(0.5f, 0.5f);
+            Vector2 offset = new Vector2(0.5f, 0.5f);
+            Vector2 position = WorldPos(cell.Position.x, cell.Position.y, true) + offset;
             GameObject selectedEnemy = EnemyManager.Instance.GetEnemyPrefab();
             GameObject enemyInstance = Instantiate(selectedEnemy, position, Quaternion.identity);
 
