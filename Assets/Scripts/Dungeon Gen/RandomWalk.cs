@@ -19,11 +19,12 @@ public class RandomWalkRoomGenerator
 
     public RandomWalkRoomGenerator(int width, int height, int doorCount, float cornerIntensity, int minSize, int maxSize)
     {
+        int map_limit = (width - 1) * (height - 1);
         this.width = width;
         this.height = height;
         this.doorCount = doorCount;
-        this.minSize = minSize;
-        this.maxSize = maxSize;
+        this.minSize = (minSize < map_limit) ? minSize : map_limit;
+        this.maxSize = (maxSize < map_limit) ? maxSize : map_limit;
         this.cornerIntensity = cornerIntensity;
     }
 
@@ -73,10 +74,12 @@ public class RandomWalkRoomGenerator
             new Vector2Int(0, -1), // Down
             new Vector2Int(0, 1),  // Up
         };
-        
+
+        Stack<Vector2Int> visited = new Stack<Vector2Int>();
+        visited.Push(new Vector2Int(startX, startY));
         int prev_dir = -1;
         // Walk for a maximum number of steps or until we hit size limit
-        for (int step = 0; (step < maxSteps && size < maxSize); step++)
+        for (int step = 0; (step < maxSteps && size < maxSize) ; step++)
         {
             // Randomly choose a direction
             int dir = Random.Range(0, directions.Count);
@@ -94,18 +97,45 @@ public class RandomWalkRoomGenerator
                 roomLayout.SetCell(nx, ny, CellType.Floor);
                 size++;
 
+                bool is_blocked = true;
+                foreach (var n in directions) {
+                    int next_nx = nx + n.x;
+                    int next_ny = nx + n.y;
+                    if (IsValidExpansion(next_nx, next_ny))
+                    {
+                        is_blocked = false; break;
+                    }
+                }
+                if (is_blocked) {
+                    while (visited.Count != 0) { 
+                        var prev = visited.Pop();
+                        bool is_prev_blocked = true;
+                        foreach (var pn in directions)
+                        {
+                            int pnext_nx = prev.x + pn.x;
+                            int pnext_ny = prev.y + pn.y;
+                            if (IsValidExpansion(pnext_nx, pnext_ny))
+                            {
+                                is_prev_blocked = false; break;
+                            }
+                        }
+                        if (!is_prev_blocked)
+                        {
+                            nx = prev.x;
+                            ny = prev.y;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    visited.Push(new Vector2Int(nx, ny));
+                }
                 // Update current position
                 currentX = nx;
                 currentY = ny;
             }
             // If the move is invalid, continue with same position
             prev_dir = dir;
-        }
-
-        // Ensure minimum size is met
-        if (size < minSize)
-        {
-            ExpandRoomToMinimumSize(size);
         }
     }
 

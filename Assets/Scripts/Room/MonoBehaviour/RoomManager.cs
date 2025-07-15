@@ -147,7 +147,7 @@ public class RoomManager : MonoBehaviour
                 {
                     tile = floorTiles[Random.Range(0, floorTiles.Length)];
                 }
-                else if (cell.cellType == CellType.Wall)
+                else if (cell.cellType == CellType.Wall || cell.cellType == CellType.Door)
                 {
                     if (cell.direction == DIRECTION.Left)
                     {
