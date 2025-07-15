@@ -1,13 +1,13 @@
 using UnityEngine;
 
 [System.Serializable]
-public class KeyValuePair<TKey, TValue>
+public class SKeyValuePair<TKey, TValue>
 {
     [SerializeField]
     private TKey key;
     [SerializeField]
     private TValue value;
-    public KeyValuePair(TKey key, TValue value)
+    public SKeyValuePair(TKey key, TValue value)
     {
         this.key = key;
         this.value = value;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DungeonManager : Singleton<DungeonManager>
 {
-    public DDAEngineWrapper DDAEngine;
+    //public DDAEngineWrapper DDAEngine;
     public PlayerStateManager playerPrefab;
     public RoomManager RoomManager;
     //public MiniMap _miniMap;
@@ -89,7 +89,7 @@ public class DungeonManager : Singleton<DungeonManager>
 
         _visitedRooms.Add(startRoom, _currentRoom);
 
-        DDAEngine.StartLevel(roomID.ToString());
+       // DDAEngine.StartLevel(roomID.ToString());
 
         _gameManager = GameManager.Instance;
     }
@@ -225,7 +225,7 @@ public class DungeonManager : Singleton<DungeonManager>
 
         _nextRoom.OpenAllDoors(true);
 
-        DDAEngine.EndLevel();
+       // DDAEngine.EndLevel();
         GameManager.Instance.PrintStats();
         _playerTransform.gameObject.SetActive(false);
         while (Vector3.Distance(_mainCamera.position, target) > 0.0001f)
@@ -261,6 +261,9 @@ public class DungeonManager : Singleton<DungeonManager>
         _playerTransform.position = RoomManager.GetSpawnPoint() + offset;
 
         _shifting = false;
+        
+
+        GameManager.Instance.EndLevel();
 
         
     }
@@ -290,7 +293,7 @@ public class DungeonManager : Singleton<DungeonManager>
             nextRoom = RoomManager.GenerateRoom(_offsetX, _offsetY, neighbours, nextRoomId);
         }
 
-        DDAEngine.StartLevel(nextRoomId.ToString());
+       // DDAEngine.StartLevel(nextRoomId.ToString());
         return nextRoom;
 
     }

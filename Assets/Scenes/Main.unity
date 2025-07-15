@@ -399,7 +399,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93c47d5758c86b347b84ea646895749d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pcgParams: {fileID: 11400000, guid: 99c2c4b2f07b75a418b70af441587e57, type: 2}
   floorTiles:
   - {fileID: 1880599223656490525, guid: 690e475c8727c494bbed65794e282e43, type: 3}
   - {fileID: 7544728908317936455, guid: 4c3382ed5ff297f40ad279af67701ca1, type: 3}
@@ -469,6 +468,7 @@ MonoBehaviour:
   - {fileID: 3934735097026660753, guid: c85f4a2bd7b91734ea458be76876cf9d, type: 3}
   - {fileID: 2433225451650072507, guid: d9939ff0266a50146b772acd42e40f68, type: 3}
   - {fileID: 8605540351659880773, guid: 7024e83f7c695704ca612a415b1fed21, type: 3}
+  Params: {fileID: 11400000, guid: 99c2c4b2f07b75a418b70af441587e57, type: 2}
   enemies: 0
 --- !u!4 &656800737
 Transform:
@@ -816,7 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652b62e5e6adeb7468bbc858e0e2a836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ddaEngineWrapper: {fileID: 2019744092}
+  ddaEngineWrapper: {fileID: 0}
   totalDamage: 0
   totalHealing: 0
   rangedAttackRatio: 0
@@ -825,9 +825,16 @@ MonoBehaviour:
   rangedAttacks: 0
   roomEnemies: 0
   roomEnemyKilled: 0
+  builder: {fileID: 0}
   player: {fileID: 0}
+  cornerIntensity: 0
+  time: 0
+  ddaEngineWrapperInstance: {fileID: 0}
   anyList:
-    list: []
+    list:
+    - key: 
+      value:
+        key: 0
 --- !u!114 &1475713691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -885,7 +892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6db8f1cb8265234f9d5be732f721ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DDAEngine: {fileID: 2019744092}
   playerPrefab: {fileID: 5828633382976372668, guid: 589728e378a653745937697366b7850a,
     type: 3}
   RoomManager: {fileID: 656800736}
@@ -1168,7 +1174,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2019744093}
-  - component: {fileID: 2019744092}
   - component: {fileID: 2019744094}
   m_Layer: 0
   m_Name: DDAEngine
@@ -1177,18 +1182,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2019744092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2019744091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1ceca1eb80fb2d4dac6fa7a7dc610a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2019744093
 Transform:
   m_ObjectHideFlags: 0
@@ -1211,11 +1204,121 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019744091}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54f7fe91978d9d240ba8ccfcd80e5eb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelEnding: 0
+--- !u!1 &2140691057
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2140691059}
+  - component: {fileID: 2140691058}
+  m_Layer: 0
+  m_Name: DDAConfigBuilder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2140691058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140691057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ab64e9acc8088744a860cb68ba2bd7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameterGroups:
+  - name: Enemies
+    description: Parameter Group for Enemies
+    parameters:
+    - name: EnemyCount
+      type: 0
+      defaultValue: 0.5
+      minValue: 0
+      maxValue: 10
+      description: Weight Enemy Count
+    - name: SpawnRangeWeight
+      type: 0
+      defaultValue: 1
+      minValue: 0
+      maxValue: 10
+      description: Spawn Ranged Enemy Weight
+    - name: SpawnContact
+      type: 0
+      defaultValue: 1
+      minValue: 0
+      maxValue: 10
+      description: Contact spawn
+    - name: SpawnSwarm
+      type: 0
+      defaultValue: 0
+      minValue: 0
+      maxValue: 10
+      description: Spawn Swarm
+    - name: TestMetric
+      type: 0
+      defaultValue: 0
+      minValue: 0
+      maxValue: 1
+      description: Test
+  - name: Generator
+    description: Generation
+    parameters:
+    - name: CornerIntensity
+      type: 0
+      defaultValue: 0.5
+      minValue: 0
+      maxValue: 1
+      description: 
+  fitnessConfig:
+    baseFitness: 100
+    aggregationMethod: 0
+    metrics:
+    - metricName: player.damageratio
+      weight: 0
+      idealValue: 0.5
+      minValue: 0
+      maxValue: 1
+      evaluationType: 2
+    - metricName: player.
+      weight: 0
+      idealValue: 0
+      minValue: 0
+      maxValue: 0
+      evaluationType: 0
+    - metricName: player.timetaken
+      weight: 0.877
+      idealValue: 60
+      minValue: 0
+      maxValue: 90000
+      evaluationType: 0
+--- !u!4 &2140691059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140691057}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.4084897, y: -4.321022, z: -0.16372055}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1230,3 +1333,4 @@ SceneRoots:
   - {fileID: 844591674}
   - {fileID: 1475713692}
   - {fileID: 1191104361}
+  - {fileID: 2140691059}

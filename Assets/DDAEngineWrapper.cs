@@ -195,19 +195,19 @@ public class DDAEngineWrapper : MonoBehaviour
 
     public void EndLevel()
     {
-        if (currentLevelMetrics != null)
-        {
-            currentLevelMetrics.completion_time = Time.time - levelStartTime;
+        //if (currentLevelMetrics != null)
+        //{
+        //    currentLevelMetrics.completion_time = Time.time - levelStartTime;
 
-            string json = JsonUtility.ToJson(currentLevelMetrics);
-            DDA_SubmitLevelMetrics(json);
+        //    string json = JsonUtility.ToJson(currentLevelMetrics);
+        //    DDA_SubmitLevelMetrics(json);
 
-            // Trigger evolution after every 5 levels
-            if (UnityEngine.Random.Range(0, 5) == 0)
-            {
-                DDA_EvolveParameters();
-            }
-        }
+        //    // Trigger evolution after every 5 levels
+        //    if (UnityEngine.Random.Range(0, 5) == 0)
+        //    {
+        //        DDA_EvolveParameters();
+        //    }
+        //}
     }
 
     public void RecordPlayerDeath()

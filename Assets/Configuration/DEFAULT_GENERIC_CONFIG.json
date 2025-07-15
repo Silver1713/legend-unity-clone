@@ -1,0 +1,94 @@
+{
+"parameterGroups": [
+{
+"name": "Enemies",
+"description": "Parameter Group for Enemies",
+"parameters": [
+{
+"name": "EnemyCount",
+"type": "float",
+"defaultValue": 0.5,
+"minValue": 0,
+"maxValue": 10,
+"description": "Weight Enemy Count"
+},
+{
+"name": "SpawnRangeWeight",
+"type": "float",
+"defaultValue": 1,
+"minValue": 0,
+"maxValue": 10,
+"description": "Spawn Ranged Enemy Weight"
+},
+{
+"name": "SpawnContact",
+"type": "float",
+"defaultValue": 1,
+"minValue": 0,
+"maxValue": 10,
+"description": "Contact spawn"
+},
+{
+"name": "SpawnSwarm",
+"type": "float",
+"defaultValue": 0,
+"minValue": 0,
+"maxValue": 10,
+"description": "Spawn Swarm"
+},
+{
+"name": "TestMetric",
+"type": "float",
+"defaultValue": 0,
+"minValue": 0,
+"maxValue": 1,
+"description": "Test"
+}
+]
+},
+{
+"name": "Generator",
+"description": "Generation",
+"parameters": [
+{
+"name": "CornerIntensity",
+"type": "float",
+"defaultValue": 0.5,
+"minValue": 0,
+"maxValue": 1,
+"description": ""
+}
+]
+}
+],
+"fitnessConfig": {
+"baseFitness": 100,
+"aggregationMethod": "weighted_sum",
+"metrics": [
+{
+"metricName": "player.damageratio",
+"weight": 0,
+"idealValue": 0.5,
+"minValue": 0,
+"maxValue": 1,
+"evaluationType": "distance"
+},
+{
+"metricName": "player.",
+"weight": 0,
+"idealValue": 0,
+"minValue": 0,
+"maxValue": 0,
+"evaluationType": "minimize"
+},
+{
+"metricName": "player.timetaken",
+"weight": 0.877,
+"idealValue": 60,
+"minValue": 0,
+"maxValue": 90000,
+"evaluationType": "minimize"
+}
+]
+}
+}
