@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor.Search;
 
 // Add this to your existing ROOM_SHAPE enum in RoomLayout.cs
 public enum ROOM_SHAPE { XShape, TShape, Rectangle, LShape, RandomWalk }

@@ -4,7 +4,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Defective.JSON;
 using UnityEngine;
-using SimpleJSON;
 using Random = UnityEngine.Random;
 
 // Unity C# wrapper for DDAEngine
@@ -51,9 +50,9 @@ public class DDAAPI : MonoBehaviour
     private static extern int DDA_Load();
 
     [DllImport("DDAEngine")]
-    private static extern int DDA_LoadConfig(string json);
+    private static extern int DDA_LoadConfig([MarshalAs(UnmanagedType.LPStr)] string json);
     [DllImport("DDAEngine")]
-    private static extern void DDA_SetAnyIdealMetric(string metric, float value);
+    private static extern void DDA_SetAnyIdealMetric([MarshalAs(UnmanagedType.LPStr)] string metric, float value);
     [DllImport("DDAEngine")]
     private static extern int DDA_INIT();
     [DllImport("DDAEngine")]
@@ -63,13 +62,13 @@ public class DDAAPI : MonoBehaviour
     private static extern void DDA_Shutdown();
 
     [DllImport("DDAEngine")]
-    private static extern void DDA_CollectMetric(string metricName, float value);
+    private static extern void DDA_CollectMetric([MarshalAs(UnmanagedType.LPStr)] string metricName, float value);
 
     [DllImport("DDAEngine")]
-    private static extern void DDA_CollectMetricInt(string metricName, int value);
+    private static extern void DDA_CollectMetricInt([MarshalAs(UnmanagedType.LPStr)] string metricName, int value);
 
     [DllImport("DDAEngine")]
-    private static extern void DDA_SubmitLevelMetrics(string jsonMetricMatrix);
+    private static extern void DDA_SubmitLevelMetrics([MarshalAs(UnmanagedType.LPStr)] string jsonMetricMatrix);
 
     [DllImport("DDAEngine")]
     private static extern void DDA_EvolveParameters();
@@ -105,7 +104,7 @@ public class DDAAPI : MonoBehaviour
     private static extern IntPtr DDA_ExportParametersJson();
 
     [DllImport("DDAEngine")]
-    private static extern void DDA_ImportParametersJson(string json);
+    private static extern void DDA_ImportParametersJson([MarshalAs(UnmanagedType.LPStr)]string json);
 
     [DllImport("DDAEngine")]
     private static extern float DDA_GetPlayerSkillLevel();
