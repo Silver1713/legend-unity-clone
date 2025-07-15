@@ -399,6 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93c47d5758c86b347b84ea646895749d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pcgParams: {fileID: 11400000, guid: 99c2c4b2f07b75a418b70af441587e57, type: 2}
   floorTiles:
   - {fileID: 1880599223656490525, guid: 690e475c8727c494bbed65794e282e43, type: 3}
   - {fileID: 7544728908317936455, guid: 4c3382ed5ff297f40ad279af67701ca1, type: 3}
@@ -468,6 +469,7 @@ MonoBehaviour:
   - {fileID: 3934735097026660753, guid: c85f4a2bd7b91734ea458be76876cf9d, type: 3}
   - {fileID: 2433225451650072507, guid: d9939ff0266a50146b772acd42e40f68, type: 3}
   - {fileID: 8605540351659880773, guid: 7024e83f7c695704ca612a415b1fed21, type: 3}
+  enemies: 0
 --- !u!4 &656800737
 Transform:
   m_ObjectHideFlags: 0
@@ -666,7 +668,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32311
 --- !u!114 &844591672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,6 +823,8 @@ MonoBehaviour:
   meleeAttackRatio: 0
   meleeAttacks: 0
   rangedAttacks: 0
+  roomEnemies: 0
+  roomEnemyKilled: 0
   player: {fileID: 0}
   anyList:
     list: []
@@ -1073,7 +1077,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Health: 100
+  m_text: 'Health: {%d}
 
 '
   m_isRightToLeft: 0
@@ -1180,7 +1184,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019744091}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1ceca1eb80fb2d4dac6fa7a7dc610a1, type: 3}
   m_Name: 
@@ -1207,7 +1211,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019744091}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54f7fe91978d9d240ba8ccfcd80e5eb2, type: 3}
   m_Name: 

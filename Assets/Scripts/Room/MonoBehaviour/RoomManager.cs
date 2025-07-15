@@ -21,7 +21,7 @@ public class RoomManager : MonoBehaviour
             maximum = max;
         }
     }
-
+    public PCGParams pcgParams;
     // Arrays of tile prefabs
     public GameObject[] floorTiles;
     public GameObject[] topWallsTiles;
@@ -61,6 +61,9 @@ public class RoomManager : MonoBehaviour
 
     private List<Position> _adjacentRooms;
 
+  
+    
+
 
     public RoomLayout currentRoom;
     private bool onSpawn = true;
@@ -80,14 +83,17 @@ public class RoomManager : MonoBehaviour
             doors = new List<DOOR_TYPE> { DOOR_TYPE.RIGHT, DOOR_TYPE.BOTTOM },
             minDoor = 1,
             maxDoor = 3,
-            onSpawn = onSpawn
+            onSpawn = onSpawn,
+            randomWalkMin = pcgParams.minSize,
+            randomWalkMax = pcgParams.maxSize,
+            cornerIntensity = pcgParams.cornerIntensity
         });
         currentRoom = layout;
         Debug.Log(layout.ToAscii());
         onSpawn = false;
         GenerateWallsAndFloors(currentRoom);
         GenerateDoorways();
-        //GenerateObjects();
+       // GenerateObjects();
         GenerateEntities();
 
         AStarPather pather = new AStarPather(currentRoom);

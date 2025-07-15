@@ -456,6 +456,7 @@ private DIRECTION DetermineWallDirection(int x, int y, CellType[,] grid)
             return true;
         }
 
+        ;
         return false;
     }
 }

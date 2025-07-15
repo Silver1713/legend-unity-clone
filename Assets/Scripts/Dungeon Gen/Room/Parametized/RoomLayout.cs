@@ -56,7 +56,7 @@ public class RoomLayout
         InBounds(position.x, position.y) ? GetCell(position.x, position.y) : null;
 
     // Add this method to your existing RoomLayout class
-    public void LayoutRoom(ROOM_SHAPE shape)
+    public void LayoutRoom(ROOM_SHAPE shape, GeneratorInfo info=default)
     {
         /*switch (shape)
         {
@@ -77,7 +77,7 @@ public class RoomLayout
                 this.GenerateRandomWalk(minSize: 25, maxSize: 80, doorCount: 4, seed: this.seed);
                 break;
         }*/
-        this.GenerateRandomWalk(minSize: 25, maxSize: 80, doorCount: 2, cornerIntensity: 1f, seed: this.seed);
+        this.GenerateRandomWalk(minSize: info.randomWalkMin, maxSize: info.randomWalkMax, doorCount: 2, cornerIntensity: info.cornerIntensity, seed: this.seed);
     }
 
     public void CarveLShape()

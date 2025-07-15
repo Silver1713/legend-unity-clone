@@ -16,7 +16,7 @@ MonoBehaviour:
   maxEnemies: 20
   minHealth: 30
   maxHealth: 100
-  testWeight: 0
+  testWeight: 0.1123
   weights:
   - key: 0
     value: 2.5
