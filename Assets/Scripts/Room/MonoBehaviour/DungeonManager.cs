@@ -263,7 +263,7 @@ public class DungeonManager : Singleton<DungeonManager>
         _shifting = false;
         
 
-        GameManager.Instance.EndLevel();
+        
 
         
     }
@@ -273,6 +273,7 @@ public class DungeonManager : Singleton<DungeonManager>
         Room nextRoom;
         int nextRoomId = dungeon.GetNextRoomId(_currentRoom.ID, direction);
         Debug.LogFormat("Next Room Id = \"{0}\" ", nextRoomId);
+        GameManager.Instance.EndLevel();
         if (_visitedRooms.ContainsKey(nextRoomId))
         {
             Debug.LogFormat("Next Room \"{0}\" has been visited already => reposition!", nextRoomId);
@@ -281,6 +282,7 @@ public class DungeonManager : Singleton<DungeonManager>
             //nextRoom.Display();
             List<Position> neighbours = dungeon.GetNeighbours(nextRoomId);
             //DebugNeighbours(neighbours);
+     
             nextRoom = RoomManager.GenerateRoom(_offsetX, _offsetY, neighbours, ++roomID);
 
 
@@ -290,6 +292,7 @@ public class DungeonManager : Singleton<DungeonManager>
             Debug.LogFormat("Next Room \"{0}\" hasn't been visited yet", nextRoomId);
             List<Position> neighbours = dungeon.GetNeighbours(nextRoomId);
             //DebugNeighbours(neighbours);
+            
             nextRoom = RoomManager.GenerateRoom(_offsetX, _offsetY, neighbours, nextRoomId);
         }
 

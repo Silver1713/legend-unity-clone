@@ -123,7 +123,7 @@ public class DDAAPI : MonoBehaviour
 
     #endregion
 
-    public static DDAAPI instance;
+    public static DDAAPI instance;  
 
     private void Awake()
     {
@@ -153,6 +153,7 @@ public class DDAAPI : MonoBehaviour
     {
         string data = config.ToJSON();
         int result = DDA_LoadConfig(data);
+        Debug.Log(data);
         if (result != 0)
         {
             Debug.LogError("Failed to load DDA configuration with error code: " + result);

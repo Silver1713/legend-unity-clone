@@ -9,7 +9,7 @@
 "type": "float",
 "defaultValue": 0.5,
 "minValue": 0,
-"maxValue": 10,
+"maxValue": 1,
 "description": "Weight Enemy Count"
 },
 {
@@ -21,7 +21,7 @@
 "description": "Spawn Ranged Enemy Weight"
 },
 {
-"name": "SpawnContact",
+"name": "SpawnContactWeight",
 "type": "float",
 "defaultValue": 1,
 "minValue": 0,
@@ -29,7 +29,7 @@
 "description": "Contact spawn"
 },
 {
-"name": "SpawnSwarm",
+"name": "SpawnSwarmWeight",
 "type": "float",
 "defaultValue": 0,
 "minValue": 0,
@@ -37,12 +37,12 @@
 "description": "Spawn Swarm"
 },
 {
-"name": "TestMetric",
+"name": "EnemyHealth",
 "type": "float",
 "defaultValue": 0,
 "minValue": 0,
-"maxValue": 1,
-"description": "Test"
+"maxValue": 100,
+"description": "Enemy Health"
 }
 ]
 },
@@ -66,28 +66,44 @@
 "aggregationMethod": "weighted_sum",
 "metrics": [
 {
-"metricName": "player.damageratio",
-"weight": 0,
+"metricName": "player.timetaken",
+"weight": 0.2,
+"idealValue": 10000,
+"minValue": 0,
+"maxValue": 90000,
+"evaluationType": "distance"
+},
+{
+"metricName": "player.meleeratio",
+"weight": 0.15,
 "idealValue": 0.5,
 "minValue": 0,
 "maxValue": 1,
 "evaluationType": "distance"
 },
 {
-"metricName": "player.",
-"weight": 0,
-"idealValue": 0,
+"metricName": "player.rangedratio",
+"weight": 0.15,
+"idealValue": 0.5,
 "minValue": 0,
-"maxValue": 0,
-"evaluationType": "minimize"
+"maxValue": 1,
+"evaluationType": "distance"
 },
 {
-"metricName": "player.timetaken",
-"weight": 0.877,
-"idealValue": 60,
+"metricName": "player.damagemelee",
+"weight": 0.15,
+"idealValue": 0,
 "minValue": 0,
-"maxValue": 90000,
-"evaluationType": "minimize"
+"maxValue": 100,
+"evaluationType": "maximize"
+},
+{
+"metricName": "player.damageranged",
+"weight": 0.15,
+"idealValue": 0,
+"minValue": 0,
+"maxValue": 100,
+"evaluationType": "maximize"
 }
 ]
 }

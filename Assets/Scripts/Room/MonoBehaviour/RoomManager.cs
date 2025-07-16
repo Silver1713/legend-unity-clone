@@ -70,8 +70,11 @@ public class RoomManager : MonoBehaviour
 
     public RoomLayout currentRoom;
     private bool onSpawn = true;
+
+    public bool isEnd = false;
     public Room GenerateRoom(int offsetX, int offsetY, List<Position> doorways, int roomId)
     {
+        
         _adjacentOffsetX = offsetX;
         _adjacentOffsetY = offsetY;
 
@@ -89,8 +92,9 @@ public class RoomManager : MonoBehaviour
             onSpawn = onSpawn,
             randomWalkMin = Params.minSize,
             randomWalkMax = Params.maxSize,
-            cornerIntensity = Params.cornerIntensity
+            cornerIntensity = (isEnd) ? DDAConfigBuilder.instance.getParam<float>("Generator.CornerIntensity") : 0.5f
         });
+        isEnd = false;
         currentRoom = layout;
         Debug.Log(layout.ToAscii());
         onSpawn = false;

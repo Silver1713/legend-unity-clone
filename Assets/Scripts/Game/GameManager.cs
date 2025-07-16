@@ -66,18 +66,7 @@ public class GameManager : MonoBehaviour
         
       
 
-        // Write the JSON to a file
-        string newConfigPath = "Assets/Configuration/DEFAULT_GENERIC_CONFIG.json";
-        System.IO.File.WriteAllText(newConfigPath, ddaConfigBuilder.ToJSON());
-        Debug.Log("Game Manager Started");
-
-        anyList.Add("player.TotalDamage", AnyList.TYPE.FLOAT, totalDamage);
-        anyList.Add("player.TotalHealing", AnyList.TYPE.FLOAT, totalHealing);
-        anyList.Add("player.RangedAttackRatio", AnyList.TYPE.FLOAT, rangedAttackRatio);
-        anyList.Add("player.MeleeAttackRatio", AnyList.TYPE.FLOAT, meleeAttackRatio);
-        anyList.Add("player.MeleeAttacks", AnyList.TYPE.FLOAT, meleeAttacks);
-        anyList.Add("player.RangedAttacks", AnyList.TYPE.FLOAT, rangedAttacks);
-        anyList.Add("player.GameObject", AnyList.TYPE.GAMEOBJECT, player);
+        
 
 
         DDAConfigBuilder builder = DDAConfigBuilder.instance;
@@ -139,6 +128,9 @@ public class GameManager : MonoBehaviour
         meleeAttacks += dmg;
         meleeAttackRatio = meleeAttacks / (totalDamage - totalHealing);
         rangedAttackRatio = rangedAttacks / (totalDamage - totalHealing);
+
+        DDAAPI.instance.CollectMetric("player.damagemelee", meleeAttacks);
+        DDAAPI.instance.CollectMetric("player.meleeratio", meleeAttackRatio);
     }
 
     public void Ranged(float dmg)
@@ -147,6 +139,8 @@ public class GameManager : MonoBehaviour
         rangedAttacks += dmg;
         rangedAttackRatio = rangedAttacks / (totalDamage - totalHealing);
         meleeAttackRatio = meleeAttacks / (totalDamage - totalHealing);
+        DDAAPI.instance.CollectMetric("player.damageranged", rangedAttacks);
+        DDAAPI.instance.CollectMetric("player.rangedratio", rangedAttackRatio);
     }
 
     public void PrintStats()

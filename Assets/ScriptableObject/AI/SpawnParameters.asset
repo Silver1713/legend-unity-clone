@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpawnParameters
   m_EditorClassIdentifier: 
   minEnemies: 1
-  maxEnemies: 20
+  maxEnemies: 6
   minHealth: 30
   maxHealth: 100
   testWeight: 0.1123

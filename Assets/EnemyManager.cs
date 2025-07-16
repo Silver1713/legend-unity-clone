@@ -14,13 +14,14 @@ public class EnemyManager : MonoBehaviour
     public GameObject swarmType;
     public Dictionary<EnemyType, GameObject> enemyTypes;
     public SpawnParameters spawnParameters;
-
+    public bool firstLevel = true;
 
 
     public static EnemyManager Instance { get; private set; }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        firstLevel = true;
        if  (Instance == null)
         {
             Instance = this;
@@ -77,6 +78,12 @@ public class EnemyManager : MonoBehaviour
 
     public int GetNumberOfEnemies()
     {
-        return spawnParameters.GetNumberEnemy(spawnParameters.testWeight);
+        if (this.firstLevel)
+        {
+            this.firstLevel = false;
+           return spawnParameters.GetNumberEnemy(spawnParameters.testWeight);
+        }
+
+        return spawnParameters.GetNumberEnemy(DDAConfigBuilder.instance.getParam<float>("Enemies.EnemyCount"));
     }
 }

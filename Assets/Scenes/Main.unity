@@ -456,6 +456,10 @@ MonoBehaviour:
     type: 3}
   bottomRightCornerTile: {fileID: 6546500520256615626, guid: e46ada5966694ba4599cb3839bf13618,
     type: 3}
+  innertopLeftCornerTile: {fileID: 0}
+  innertopRightCornerTile: {fileID: 0}
+  innerbottomLeftCornerTile: {fileID: 0}
+  innerbottomRightCornerTile: {fileID: 0}
   DoorwayPrefabs:
   - {fileID: 8230400710255881153, guid: b17d67be49d346542b36436652d62726, type: 3}
   - {fileID: 4013269816099421081, guid: fc47bc60c21a6234dbc20f73a7c7c2df, type: 3}
@@ -470,6 +474,7 @@ MonoBehaviour:
   - {fileID: 8605540351659880773, guid: 7024e83f7c695704ca612a415b1fed21, type: 3}
   Params: {fileID: 11400000, guid: 99c2c4b2f07b75a418b70af441587e57, type: 2}
   enemies: 0
+  isEnd: 0
 --- !u!4 &656800737
 Transform:
   m_ObjectHideFlags: 0
@@ -771,6 +776,7 @@ MonoBehaviour:
   swarmType: {fileID: 8605540351659880773, guid: 7024e83f7c695704ca612a415b1fed21,
     type: 3}
   spawnParameters: {fileID: 11400000, guid: ee8360baa9b339b4d99ff55394e7069d, type: 2}
+  firstLevel: 0
 --- !u!4 &1191104361
 Transform:
   m_ObjectHideFlags: 0
@@ -1247,7 +1253,7 @@ MonoBehaviour:
       type: 0
       defaultValue: 0.5
       minValue: 0
-      maxValue: 10
+      maxValue: 1
       description: Weight Enemy Count
     - name: SpawnRangeWeight
       type: 0
@@ -1255,24 +1261,24 @@ MonoBehaviour:
       minValue: 0
       maxValue: 10
       description: Spawn Ranged Enemy Weight
-    - name: SpawnContact
+    - name: SpawnContactWeight
       type: 0
       defaultValue: 1
       minValue: 0
       maxValue: 10
       description: Contact spawn
-    - name: SpawnSwarm
+    - name: SpawnSwarmWeight
       type: 0
       defaultValue: 0
       minValue: 0
       maxValue: 10
       description: Spawn Swarm
-    - name: TestMetric
+    - name: EnemyHealth
       type: 0
       defaultValue: 0
       minValue: 0
-      maxValue: 1
-      description: Test
+      maxValue: 100
+      description: Enemy Health
   - name: Generator
     description: Generation
     parameters:
@@ -1286,24 +1292,36 @@ MonoBehaviour:
     baseFitness: 100
     aggregationMethod: 0
     metrics:
-    - metricName: player.damageratio
-      weight: 0
+    - metricName: player.timetaken
+      weight: 0.2
+      idealValue: 10000
+      minValue: 0
+      maxValue: 90000
+      evaluationType: 2
+    - metricName: player.meleeratio
+      weight: 0.15
       idealValue: 0.5
       minValue: 0
       maxValue: 1
       evaluationType: 2
-    - metricName: player.
-      weight: 0
+    - metricName: player.rangedratio
+      weight: 0.15
+      idealValue: 0.5
+      minValue: 0
+      maxValue: 1
+      evaluationType: 2
+    - metricName: player.damagemelee
+      weight: 0.15
       idealValue: 0
       minValue: 0
-      maxValue: 0
-      evaluationType: 0
-    - metricName: player.timetaken
-      weight: 0.877
-      idealValue: 60
+      maxValue: 100
+      evaluationType: 1
+    - metricName: player.damageranged
+      weight: 0.15
+      idealValue: 0
       minValue: 0
-      maxValue: 90000
-      evaluationType: 0
+      maxValue: 100
+      evaluationType: 1
 --- !u!4 &2140691059
 Transform:
   m_ObjectHideFlags: 0
