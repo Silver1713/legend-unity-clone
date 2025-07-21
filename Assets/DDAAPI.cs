@@ -242,6 +242,8 @@ public class DDAAPI : MonoBehaviour
     {
        string state = Marshal.PtrToStringAnsi(DDA_ExportParametersJson());
         Debug.Log("Exported JSON: " + state);
+        string filePath = Application.persistentDataPath + "/dda_state.json";
+        File.WriteAllText(filePath, state);
         DDA_FreeString(Marshal.StringToHGlobalAnsi(state));
         DDAConfigBuilder.instance.FromJSON(state);
        

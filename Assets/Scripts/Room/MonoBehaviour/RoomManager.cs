@@ -92,7 +92,7 @@ public class RoomManager : MonoBehaviour
             onSpawn = onSpawn,
             randomWalkMin = Params.minSize,
             randomWalkMax = Params.maxSize,
-            cornerIntensity = (isEnd) ? DDAConfigBuilder.instance.getParam<float>("Generator.CornerIntensity") : 0.5f
+            cornerIntensity = (isEnd) ? DDAConfigBuilder.instance.getParam<float>("Generator", "CornerIntensity") : 0.5f
         });
         isEnd = false;
         currentRoom = layout;
@@ -100,7 +100,7 @@ public class RoomManager : MonoBehaviour
         onSpawn = false;
         GenerateWallsAndFloors(currentRoom);
         GenerateDoorways();
-        GenerateObjects();
+        //GenerateObjects();
         GenerateEntities();
 
         AStarPather pather = new AStarPather(currentRoom);
@@ -160,7 +160,7 @@ public class RoomManager : MonoBehaviour
                 {
                     tile = floorTiles[Random.Range(0, floorTiles.Length)];
                 }
-                else if (cell.cellType == CellType.Wall)
+                else if (cell.cellType == CellType.Wall || cell.cellType == CellType.Door)
                 {
                     if (cell.direction == DIRECTION.Left)
                     {
@@ -375,7 +375,7 @@ private Position DirectionToPositionEnum(DIRECTION dir)
                 Debug.LogWarning("No valid floor cell found for enemy placement.");
                 continue;
             }
-            Vector2 position = WorldPos(cell.Position.x, cell.Position.y, true);
+            Vector2 position = WorldPos(cell.Position.x, cell.Position.y, true) + new Vector2(0.5f, 0.5f);
             GameObject selectedEnemy = EnemyManager.Instance.GetEnemyPrefab();
             GameObject enemyInstance = Instantiate(selectedEnemy, position, Quaternion.identity);
 

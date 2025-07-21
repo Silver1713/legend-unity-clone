@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
         DDAAPI.instance.LevelEnding = true;
         DDAAPI.instance.Advance();
         DDAAPI.instance.GetJSON();
+        EnemyManager.Instance.UpdateSpawnWeights();
         DDAAPI.instance.LevelEnding = false;
     }
 

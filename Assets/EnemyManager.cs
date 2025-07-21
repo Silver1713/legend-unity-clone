@@ -55,6 +55,18 @@ public class EnemyManager : MonoBehaviour
     }
 
 
+    public void UpdateSpawnWeights()
+    {
+        if (spawnParameters == null)
+        {
+            Debug.LogError("SpawnParameters is not set in EnemyManager.");
+            return;
+        }
+        spawnParameters.weights[0]  = new SKeyValuePair<EnemyType, float>(EnemyType.Contact, DDAConfigBuilder.instance.getParam<float>("Enemies", "SpawnContactWeight"));
+        spawnParameters.weights[1]  = new SKeyValuePair<EnemyType, float>(EnemyType.Ranged, DDAConfigBuilder.instance.getParam<float>("Enemies", "SpawnRangeWeight"));
+        spawnParameters.weights[2]  = new SKeyValuePair<EnemyType, float>(EnemyType.Swarm, DDAConfigBuilder.instance.getParam<float>("Enemies", "SpawnSwarmWeight"));
+    }
+
     public EnemyType SelectEnemyType()
     {
         float totalWeight = 0f;
@@ -84,6 +96,6 @@ public class EnemyManager : MonoBehaviour
            return spawnParameters.GetNumberEnemy(spawnParameters.testWeight);
         }
 
-        return spawnParameters.GetNumberEnemy(DDAConfigBuilder.instance.getParam<float>("Enemies.EnemyCount"));
+        return spawnParameters.GetNumberEnemy(DDAConfigBuilder.instance.getParam<float>("Enemies", "EnemyCount"));
     }
 }

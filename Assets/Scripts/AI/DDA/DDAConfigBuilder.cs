@@ -209,6 +209,45 @@ public class DDAConfigBuilder : MonoBehaviour
         }
     }
 
+    public T getParam<T>(string group, string param)
+    {
+        string name = $"{group}.{param}";
+        JSONObject val = exportObject["current_parameters"]
+            ["parameters"][name];
+        string n = exportObject.ToString();
+        if (val == null)
+        {
+            throw new System.Exception($"Parameter '{name}' not found.");
+        }
+        float a = 0;
+        if (typeof(T) == typeof(float))
+        {
+            a = val.floatValue;
+            return (T)(object)a;
+        }
+        else if (typeof(T) == typeof(int))
+        {
+            a = val.intValue;
+            return (T)(object)a;
+        }
+        else if (typeof(T) == typeof(string))
+        {
+            return (T)(object)val.stringValue;
+        }
+        else if (typeof(T) == typeof(bool))
+        {
+            return (T)(object)val.boolValue;
+        }
+        else if (typeof(T) == typeof(double))
+        {
+            return (T)(object)val.doubleValue;
+        }
+        else
+        {
+            throw new System.Exception($"Unsupported type: {typeof(T)}");
+        }
+    }
+
     public void AddParameterGroup(string name, string description, List<Parameter> parameters = null)
     {
         GroupParameters group = new GroupParameters(name, description, parameters);

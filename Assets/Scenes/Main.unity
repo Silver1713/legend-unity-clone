@@ -456,10 +456,14 @@ MonoBehaviour:
     type: 3}
   bottomRightCornerTile: {fileID: 6546500520256615626, guid: e46ada5966694ba4599cb3839bf13618,
     type: 3}
-  innertopLeftCornerTile: {fileID: 0}
-  innertopRightCornerTile: {fileID: 0}
-  innerbottomLeftCornerTile: {fileID: 0}
-  innerbottomRightCornerTile: {fileID: 0}
+  innertopLeftCornerTile: {fileID: 995108982585928601, guid: 230d46a84b1f4f94283c903049d77c9f,
+    type: 3}
+  innertopRightCornerTile: {fileID: 5933000715923557140, guid: 99227ab083529084f8cf62801f6103e3,
+    type: 3}
+  innerbottomLeftCornerTile: {fileID: 2611352545826851631, guid: 94f412617d5d5a34785dca28415c4fd5,
+    type: 3}
+  innerbottomRightCornerTile: {fileID: 1874307699297903005, guid: 9298b6e1e26563346958fca38ec677a2,
+    type: 3}
   DoorwayPrefabs:
   - {fileID: 8230400710255881153, guid: b17d67be49d346542b36436652d62726, type: 3}
   - {fileID: 4013269816099421081, guid: fc47bc60c21a6234dbc20f73a7c7c2df, type: 3}
@@ -469,7 +473,7 @@ MonoBehaviour:
     type: 3}
   enemyPrefabs:
   - {fileID: 2433225451650072507, guid: d9939ff0266a50146b772acd42e40f68, type: 3}
-  - {fileID: 3934735097026660753, guid: c85f4a2bd7b91734ea458be76876cf9d, type: 3}
+  - {fileID: 7394432717361918618, guid: 73e86f934908ae444a1f76fffa409930, type: 3}
   - {fileID: 2433225451650072507, guid: d9939ff0266a50146b772acd42e40f68, type: 3}
   - {fileID: 8605540351659880773, guid: 7024e83f7c695704ca612a415b1fed21, type: 3}
   Params: {fileID: 11400000, guid: 99c2c4b2f07b75a418b70af441587e57, type: 2}

@@ -1087,7 +1087,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tilesheet_0
+      name: INNER_CORNER_TOP_LEFT
       rect:
         serializedVersion: 2
         x: 0
@@ -1131,15 +1131,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tilesheet_2
+      name: INNER_CORNER_TOP_RIGHT
       rect:
         serializedVersion: 2
         x: 32
         y: 192
         width: 16
         height: 16
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 6
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1879,15 +1879,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tilesheet_36
+      name: INNER_CORNER_BOTTOM_LEFT
       rect:
         serializedVersion: 2
         x: 0
         y: 160
         width: 16
         height: 16
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 6
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1923,15 +1923,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tilesheet_38
+      name: INNER_CORNER_BOTTOM_RIGHT
       rect:
         serializedVersion: 2
         x: 32
         y: 160
         width: 16
         height: 16
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 6
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -6292,6 +6292,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      INNER_CORNER_BOTTOM_LEFT: -6170181331964284006
+      INNER_CORNER_BOTTOM_RIGHT: -4751595166307651549
+      INNER_CORNER_TOP_LEFT: -3926240249598003598
+      INNER_CORNER_TOP_RIGHT: 6817495437695232509
       TILE_BOTTOM_LEFT_CORNER: 3871477845092006523
       TILE_BOTTOM_RIGHT_CORNER: 7289376758860742697
       TILE_BOTTOM_WALLS_1: 3885321101450050462
@@ -6348,7 +6352,6 @@ TextureImporter:
       floortile_7: 3091917458165217129
       floortile_8: 8118912239797933785
       floortile_9: 105304495650001751
-      tilesheet_0: -3926240249598003598
       tilesheet_1: -1387380265973276101
       tilesheet_100: 3639225405698024660
       tilesheet_103: -5179653739207891358
@@ -6448,7 +6451,6 @@ TextureImporter:
       tilesheet_197: 8755495539920183387
       tilesheet_198: -520769103299239183
       tilesheet_199: -2741671793719961182
-      tilesheet_2: 6817495437695232509
       tilesheet_20: 5330747614379908274
       tilesheet_200: 4006820264292899590
       tilesheet_201: -2273365934004499420
@@ -6490,9 +6492,7 @@ TextureImporter:
       tilesheet_33: -3928289353700984501
       tilesheet_34: 6605514159518918273
       tilesheet_35: 2191451613496472838
-      tilesheet_36: -6170181331964284006
       tilesheet_37: -1777792871983629933
-      tilesheet_38: -4751595166307651549
       tilesheet_39: 8668873773516394811
       tilesheet_40: -7694359990517455448
       tilesheet_41: 1764724476103764971
